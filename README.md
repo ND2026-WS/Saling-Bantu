@@ -540,6 +540,12 @@ buka Dashboard Supabase → Authentication → Users → pilih akun → hapus.
 - Pengumuman platform kini tersimpan **global di tabel `site_content`** saat
   terhubung Supabase (ikut realtime ke semua perangkat); di Mode Demo tetap
   di localStorage browser ini.
+- Kartu **Kategori Bantuan** di beranda kini menampilkan dua angka sekaligus:
+  **"N sub-kategori"** (rincian jenis bantuan — statik, daftar menunya) dan
+  **"N pengajuan aktif"** (oranye — realtime, dihitung dari pengajuan berstatus
+  dipublikasikan/sedang dibantu). Angka oranye ikut memuat ulang otomatis
+  setiap ada perubahan data; kategori tanpa pengajuan aktif menampilkan
+  jumlah sub-kategorinya saja.
 - Prasyarat realtime di database lama: jalankan
   `sql/update_delete_realtime.sql` (mendaftarkan 17 tabel utama ke
   publication `supabase_realtime`). Database baru sudah lengkap.
@@ -777,8 +783,9 @@ foto contoh (digambar sebagai SVG kecil, tanpa file gambar eksternal).
 - **"Gagal memuat modul: S.store.listGalery is not a function"**: browser
   masih memegang berkas lama dari versi antara (salah ketik lama). Dua
   lapis perbaikan sudah disiapkan: (1) semua `js/*.js` & `css/style.css`
-  kini diberi akhiran `?v=19` agar cache browser otomatis mengambil
-  berkas terbaru, (2) `store.js` menyediakan alias `listGalery` →
+  kini diberi akhiran versi `?v=NN` (saat ini `?v=20`) agar cache browser
+  otomatis mengambil berkas terbaru — naikkan angkanya setiap kali berkas
+  js/css diubah, (2) `store.js` menyediakan alias `listGalery` →
   `listGaleri`. Solusi: ganti SEMUA berkas dengan isi zip terbaru,
   lalu tekan **Ctrl+Shift+R** (hard refresh). Jangan mengganti sebagian
   berkas saja — seluruh isi folder harus dari versi yang sama.

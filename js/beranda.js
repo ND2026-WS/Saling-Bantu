@@ -84,14 +84,37 @@
     if (SB.muatKonten) await SB.muatKonten();
     if (SB.terapkanKonten) SB.terapkanKonten();
 
-    /* Kategori */
+    /* Kategori — angka "N sub-kategori" adalah rincian jenis bantuan
+       (statik, dari daftar KATEGORI), sedangkan jumlah pengajuan aktif
+       ditambahkan realtime oleh segarHitungKategori() di bawah. */
     document.getElementById("cat-grid").innerHTML = Object.entries(S.KATEGORI).map(([k, m]) =>
-      '<a class="cat-card" href="cari-bantuan.html?kategori=' + k + '">' +
+      '<a class="cat-card" data-kat="' + k + '" href="cari-bantuan.html?kategori=' + k + '">' +
       '<span class="cat-ic k-' + m.warna + '">' + S.icon(m.icon, 21) + "</span>" +
       "<div><h3>" + S.esc(m.label) + "</h3><p>" + S.esc(m.desc) + "</p>" +
       '<span class="sub-n">' + m.sub.length + " sub-kategori →</span></div></a>").join("");
 
     animasiAngka();
+
+    /* Jumlah pengajuan AKTIF per kategori (status dipublikasikan atau
+       sedang dibantu — masih menunggu kebaikan tangan pembantu). Angka ini
+       YANG realtime: ikut memuat ulang setiap ada perubahan data, misalnya
+       admin memverifikasi pengajuan baru. Kartu tanpa pengajuan aktif cukup
+       menampilkan jumlah sub-kategorinya saja. */
+    function segarHitungKategori(semuaReq) {
+      const hitung = {};
+      (semuaReq || []).forEach((r) => {
+        if (r.status === "dipublikasikan" || r.status === "sedang_dibantu")
+          hitung[r.kategori] = (hitung[r.kategori] || 0) + 1;
+      });
+      document.querySelectorAll("#cat-grid .cat-card").forEach((card) => {
+        const m = S.KATEGORI[card.dataset.kat];
+        const el = card.querySelector(".sub-n");
+        if (!m || !el) return;
+        const jml = hitung[card.dataset.kat] || 0;
+        el.innerHTML = m.sub.length + " sub-kategori" +
+          (jml ? ' · <b style="color:var(--oranye-tua)">' + jml + " pengajuan aktif</b>" : "") + " →";
+      });
+    }
 
     /* Semua bagian yang menampilkan data platform — dipanggil saat halaman
        dibuka dan dipanggil ULANG otomatis setiap ada perubahan data
@@ -113,14 +136,16 @@
         }
       } catch (e) { /* pakai angka default */ }
 
-      /* Kartu bantuan terbaru */
+      /* Kartu bantuan terbaru + hitungan aktif per kategori */
       try {
-        const reqs = (await S.store.listRequests({ publikOnly: true })).slice(0, 6);
+        const semuaReq = await S.store.listRequests({ publikOnly: true });
+        const reqs = semuaReq.slice(0, 6);
         const grid = document.getElementById("req-grid");
         if (!reqs.length) grid.innerHTML = S.kosong("Belum ada pengajuan yang dipublikasikan.", "package");
         else grid.innerHTML = reqs.map(kartuPengajuan).join("");
         grid.querySelectorAll("[data-detail]").forEach((b) =>
           b.addEventListener("click", () => modalDetail(b.dataset.detail)));
+        segarHitungKategori(semuaReq);
       } catch (e) {
         document.getElementById("req-grid").innerHTML = S.kosong("Gagal memuat pengajuan: " + e.message, "package");
       }
