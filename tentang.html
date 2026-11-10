@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Tentang Kami — Saling Bantu</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2316a34a'%3E%3Cpath d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'/%3E%3C/svg%3E"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body data-page="tentang">
+  <div id="app-header"></div>
+
+  <main>
+    <section class="hero" style="padding:48px 0 54px">
+      <div class="container" style="max-width:860px;text-align:center">
+        <span class="hero-badge">Tentang Saling Bantu</span>
+        <h1 style="font-size:clamp(26px,3.6vw,38px)">Gotong Royong yang Ditata Ulang oleh Teknologi</h1>
+        <p class="hero-sub" style="margin:14px auto 0">Saling Bantu adalah platform gotong royong digital yang menghubungkan mereka yang membutuhkan bantuan dengan individu, komunitas, lembaga, dan volunteer yang ingin membantu — secara mudah, aman, dan transparan.</p>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:44px">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Tujuan Kami</span>
+          <h2>Lima Tujuan yang Kami Genggam</h2>
+        </div>
+        <div class="grid grid-3" id="tujuan-grid"></div>
+      </div>
+    </section>
+
+    <section class="section alt">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Nilai Kami</span>
+          <h2>Prinsip yang Tidak Bisa Dikompromikan</h2>
+        </div>
+        <div class="grid grid-3" id="nilai-grid"></div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container" style="max-width:860px">
+        <div class="section-head">
+          <span class="eyebrow">Cara Kerja</span>
+          <h2>Empat Langkah, dari Niat sampai Laporan</h2>
+        </div>
+        <div class="grid grid-2" id="langkah-grid"></div>
+      </div>
+    </section>
+
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="cta-band">
+          <div>
+            <h2>Siap Jadi Bagian dari Gerakan Ini?</h2>
+            <p>Hubungi kami di <b>halo@salingbantu.id</b> atau langsung mulai dengan membuat akun. Gratis, untuk semua.</p>
+          </div>
+          <a class="btn btn-white btn-lg" href="daftar.html">Mulai Sekarang</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="app-footer"></div>
+  <div id="toast-wrap"></div>
+  <div id="modal-root"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/konten.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var S = SB;
+      var tujuan = [
+        ["file", "hijau", "Memudahkan Minta Bantuan", "Satu formulir sederhana, bahasa yang manusiawi, tanpa biaya — siapa pun bisa mengajukan dalam hitungan menit."],
+        ["heart", "oranye", "Memudahkan Memberi Bantuan", "Donatur bisa memilih bentuk bantuan: dana, barang, tenaga, keahlian, atau jaringan koneksi."],
+        ["users", "biru", "Menjembatani Keduanya", "Menghubungkan penerima dengan donatur, komunitas, lembaga, dan volunteer yang tepat dan terdekat."],
+        ["shield", "teal", "Membangun Kepercayaan", "Setiap pengajuan diverifikasi admin; setiap donasi tercatat dan dapat diaudit melalui halaman Transparansi."],
+        ["heartHand", "ungu", "Memanaskan Kembali Solidaritas", "Gotong royong bukan aplikasi — kami ingin menghidupkan budaya tolong-menolong di sekitar kita."]
+      ];
+      document.getElementById("tujuan-grid").innerHTML = tujuan.map(function (t) {
+        return '<div class="cat-card"><span class="cat-ic k-' + t[1] + '">' + S.icon(t[0], 21) + "</span>" +
+          "<div><h3>" + t[2] + "</h3><p>" + t[3] + "</p></div></div>";
+      }).join("");
+
+      var nilai = [
+        ["Gotong Royong", "Beban dibagi menjadi ringan. Tidak ada yang menanggung semuanya sendirian."],
+        ["Kepedulian", "Kami mendengar cerita di balik setiap pengajuan, bukan sekadar angka."],
+        ["Kebersamaan", "Individu, komunitas, dan lembaga dipersatukan dalam satu gerakan."],
+        ["Kepercayaan", "Verifikasi ketat, audit terbuka, dan nol toleransi untuk penipuan."],
+        ["Kemanusiaan", "Martabat penerima dijaga: dibantu tanpa harus kehilangan privasi."]
+      ];
+      document.getElementById("nilai-grid").innerHTML = nilai.map(function (n, i) {
+        var warna = ["hijau", "oranye", "biru", "teal", "ungu"][i];
+        return '<div class="card card-pad"><h3 style="font-size:15.5px;margin-bottom:6px">' +
+          '<span class="k-ic k-' + warna + '" style="width:26px;height:26px;border-radius:8px;display:inline-grid;margin-right:7px;vertical-align:-5px">' + S.icon("heart", 13) + "</span>" +
+          n[0] + "</h3><p style='font-size:13.5px;color:var(--abu)'>" + n[1] + "</p></div>";
+      }).join("");
+
+      var langkah = [
+        ["1", "Ajukan atau Temukan", "Penerima mengajukan bantuan; admin memverifikasi kebenaran data sebelum dipublikasikan."],
+        ["2", "Publik dengan Aman", "Pengajuan tampil publik tanpa data pribadi. Donatur memilih cara membantu yang paling sesuai."],
+        ["3", "Bantuan Mengalir", "Donasi dikonfirmasi dan disalurkan dengan bukti. Penerima menerima notifikasi di setiap tahap."],
+        ["4", "Laporan Terbuka", "Laporan penggunaan dan penyaluran dipublikasikan di halaman Transparansi. Siklus kebaikan berlanjut."]
+      ];
+      document.getElementById("langkah-grid").innerHTML = langkah.map(function (l) {
+        return '<div class="card card-pad" style="display:flex;gap:14px">' +
+          '<span class="avatar" style="width:40px;height:40px">' + l[0] + "</span>" +
+          "<div><b style='font-family:var(--font-judul);font-size:15.5px'>" + l[1] + "</b><p style='font-size:13.5px;color:var(--abu);margin-top:4px'>" + l[2] + "</p></div></div>";
+      }).join("");
+    });
+  </script>
+</body>
+</html>

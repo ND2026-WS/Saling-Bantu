@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Donasi Cepat — Saling Bantu</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2316a34a'%3E%3Cpath d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'/%3E%3C/svg%3E"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body data-page="cepat">
+  <div id="app-header"></div>
+
+  <main class="section" style="padding-top:36px">
+    <div class="container" style="max-width:1060px">
+      <div class="section-head" style="margin-bottom:26px">
+        <span class="eyebrow">Jalur Cepat Berdonasi</span>
+        <h2>Donasi Cepat — Tanpa Membuat Akun</h2>
+        <p>Cukup isi nama dan nomor WhatsApp, pilih program yang ingin ditopang, transfer ke rekening yayasan, lalu kirim bukti transfer lewat WhatsApp admin. Setelah diverifikasi, donasimu otomatis masuk rekapan laporan.</p>
+      </div>
+
+      <!-- ============ FORMULIR ============ -->
+      <div id="cp-form-wrap">
+        <div class="dash-layout" style="grid-template-columns:1fr 330px;padding:0">
+          <div class="panel">
+            <h3 style="font-size:17px">Isi Data Donasi Cepat</h3>
+            <div class="field">
+              <label>Nama Lengkap <span class="req-star">*</span></label>
+              <input type="text" id="cp-nama" maxlength="60" placeholder="Contoh: Ahmad Fauzi"/>
+              <p class="hint">Nama ini yang tercatat sebagai pemberi donasi (bisa disembunyikan di bawah).</p>
+              <p class="err">Nama minimal 3 karakter.</p>
+            </div>
+            <div class="field">
+              <label>Nomor WhatsApp <span class="req-star">*</span></label>
+              <input type="tel" id="cp-wa" maxlength="20" placeholder="Contoh: 0812-3456-7890"/>
+              <p class="hint">Admin menghubungi nomor ini untuk verifikasi bukti transfer. Format 08xx / +62xx.</p>
+              <p class="err">Nomor WhatsApp tidak valid — contoh benar: 081234567890.</p>
+            </div>
+            <div class="field">
+              <label>Pilih Program Donasi <span class="req-star">*</span></label>
+              <select id="cp-program"></select>
+              <p class="hint">Semua program di bawah sudah diverifikasi admin dan sedang menerima donasi.</p>
+            </div>
+            <div class="field">
+              <label>Nominal (Rp) <span class="req-star">*</span></label>
+              <div class="pill-group" id="cp-nominal-group">
+                <button type="button" class="pill" data-nominal="25000">25 rb</button>
+                <button type="button" class="pill" data-nominal="50000">50 rb</button>
+                <button type="button" class="pill" data-nominal="100000">100 rb</button>
+                <button type="button" class="pill" data-nominal="250000">250 rb</button>
+                <button type="button" class="pill" data-nominal="500000">500 rb</button>
+              </div>
+              <input type="number" id="cp-jumlah" min="10000" step="10000" placeholder="Atau ketik nominal lain, minimal 10000" style="margin-top:10px"/>
+              <p class="hint">Transfer ke rekening yayasan pada panel samping, lalu kirim buktinya via WhatsApp admin.</p>
+              <p class="err">Nominal minimal Rp 10.000.</p>
+            </div>
+            <div class="field">
+              <label>Pesan / Doa (opsional)</label>
+              <input type="text" id="cp-pesan" maxlength="140" placeholder="Contoh: Semoga memberi kekuatan, ya!"/>
+            </div>
+            <div class="field">
+              <label class="checkbox"><input type="checkbox" id="cp-anonim"/> Tampilkan sebagai <b>Hamba Allah</b> (sembunyikan namaku di daftar publik)</label>
+            </div>
+            <button class="btn btn-orange btn-lg btn-block" id="cp-kirim">Catat Donasi Saya</button>
+            <p class="hint" style="text-align:center;margin-top:10px">Tanpa daftar akun. Data donasimu langsung tercatat dan menunggu verifikasi admin.</p>
+          </div>
+
+          <aside>
+            <div class="card" id="cp-ringkas" style="padding:18px;margin-bottom:16px">
+              <h4 style="font-size:14px;margin-bottom:10px;color:var(--abu)">PROGRAM TERPILIH</h4>
+              <div id="cp-ringkas-isi"><p style="font-size:13px;color:var(--abu)">Pilih program dari daftar.</p></div>
+            </div>
+            <div class="panel" style="padding:18px">
+              <h4 style="font-size:14px;margin-bottom:8px">Transfer ke Rekening Aman Bersama</h4>
+              <dl class="kv" style="grid-template-columns:110px 1fr">
+                <dt>Bank</dt><dd id="cp-bank-nama"></dd>
+                <dt>No. Rekening</dt><dd><b id="cp-bank-rek"></b></dd>
+                <dt>Atas Nama</dt><dd id="cp-bank-an"></dd>
+              </dl>
+              <h4 style="font-size:14px;margin:16px 0 8px">Langkah Jalur Cepat</h4>
+              <ol style="font-size:13px;color:var(--abu);padding-left:18px;line-height:1.8">
+                <li>Isi nama, nomor WhatsApp, pilih program &amp; nominal.</li>
+                <li>Klik <b>Catat Donasi Saya</b> — nomor kuitansi langsung terbit.</li>
+                <li>Transfer sesuai nominal ke rekening di atas.</li>
+                <li>Kirim bukti transfer lewat tombol WhatsApp yang muncul.</li>
+                <li>Admin verifikasi — donasimu masuk rekapan otomatis.</li>
+              </ol>
+            </div>
+          </aside>
+        </div>
+      </div>
+
+      <!-- ============ SUKSES ============ -->
+      <div id="cp-sukses" style="display:none">
+        <div class="panel" style="max-width:680px;margin:0 auto">
+          <div style="display:flex;gap:14px;align-items:flex-start">
+            <span class="badge st-hijau" style="flex-shrink:0">Donasi Tercatat</span>
+            <div>
+              <h3 style="font-size:18px;margin-bottom:6px">Terima kasih! Niat baikmu sudah tercatat.</h3>
+              <p style="font-size:13.5px;color:var(--abu)">Sekarang transfer ke rekening yayasan di bawah, lalu kirim bukti transfernya ke admin lewat WhatsApp. Setelah admin memverifikasi, donasimu otomatis masuk rekapan &amp; progres program.</p>
+            </div>
+          </div>
+          <dl class="kv" style="margin-top:18px" id="cp-receipt"></dl>
+          <div class="alert alert-info" style="margin-top:16px">
+            <span id="cp-info-rek"></span>
+          </div>
+          <a class="btn btn-primary btn-lg btn-block" id="cp-wa-btn" target="_blank" rel="noopener" style="margin-top:6px">Kirim Bukti Transfer via WhatsApp</a>
+          <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
+            <button class="btn btn-ghost" id="cp-salin">Salin Pesan WhatsApp</button>
+            <button class="btn btn-outline" id="cp-ulang">Donasi Cepat Lagi</button>
+          </div>
+          <p class="hint" style="margin-top:12px">Tombol WhatsApp membuka chat dengan admin yayasan (pesannya sudah terisi otomatis). Jika WhatsApp tidak terbuka, salin pesan lalu kirim manual ke nomor admin.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="app-footer"></div>
+  <div id="toast-wrap"></div>
+  <div id="modal-root"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/konten.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/cepat.js"></script>
+</body>
+</html>

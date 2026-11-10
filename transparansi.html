@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Transparansi — Saling Bantu</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2316a34a'%3E%3Cpath d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'/%3E%3C/svg%3E"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body data-page="tentang">
+  <div id="app-header"></div>
+
+  <main class="section" style="padding-top:36px">
+    <div class="container">
+      <div class="section-head" style="margin-bottom:28px">
+        <span class="eyebrow">Transparansi Publik</span>
+        <h2>Setiap Rupiah Bisa Dilacak, Setiap Amanah Dijaga</h2>
+        <p>Laporan dana dan penyaluran kami terbuka untuk umum. Identitas penerima sengaja kami lindungi — transparansi tidak berarti membuka privasi.</p>
+      </div>
+
+      <!-- Ringkasan dana -->
+      <div class="kpi-grid" id="dana-kpi" style="grid-template-columns:repeat(4,1fr)">
+        <div class="kpi"><span class="kpi-ic k-hijau" style="display:grid"></span><b id="d-terkumpul">-</b><span>Total dana terkumpul</span></div>
+        <div class="kpi"><span class="kpi-ic k-oranye" style="display:grid"></span><b id="d-tersalur">-</b><span>Total dana tersalurkan</span></div>
+        <div class="kpi"><span class="kpi-ic k-biru" style="display:grid"></span><b id="d-pengajuan">-</b><span>Pengajuan dipublikasikan</span></div>
+        <div class="kpi"><span class="kpi-ic k-teal" style="display:grid"></span><b id="d-selesai">-</b><span>Pengajuan selesai</span></div>
+      </div>
+
+      <!-- Tabel proyek -->
+      <div class="panel">
+        <h3>Identitas Proyek Bantuan</h3>
+        <p style="font-size:13px;color:var(--abu);margin-bottom:14px">Setiap proyek punya kode unik, pengelola yang jelas, target kebutuhan, dana terkumpul, dana tersalurkan, dan laporan akhir saat selesai.</p>
+        <div class="table-wrap">
+          <table class="sb" id="tabel-proyek">
+            <thead><tr>
+              <th>Kode</th><th>Proyek</th><th>Lokasi</th><th>Target</th><th>Terkumpul</th><th>Tersalur</th><th>Progres</th><th>Status</th>
+            </tr></thead>
+            <tbody><tr><td colspan="8" style="color:var(--abu)">Memuat...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Riwayat penyaluran -->
+      <div class="panel">
+        <h3>Riwayat Penyaluran Bantuan</h3>
+        <p style="font-size:13px;color:var(--abu);margin-bottom:14px">Penyaluran hanya bisa dicatat oleh admin dengan bukti distribusi — tidak ada klaim "sudah disalurkan" tanpa dokumen.</p>
+        <div class="table-wrap">
+          <table class="sb" id="tabel-penyaluran">
+            <thead><tr><th>Tanggal</th><th>Proyek</th><th>Bentuk</th><th>Nominal / Rincian</th><th>Catatan</th></tr></thead>
+            <tbody><tr><td colspan="5" style="color:var(--abu)">Memuat...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="grid grid-2">
+        <!-- Privasi -->
+        <div class="panel">
+          <h3>Data yang Kami Lindungi</h3>
+          <p style="font-size:13.5px;color:var(--abu);margin-bottom:12px">Prinsip kami: bantu tanpa membedah hidup penerima. Data berikut <b>tidak pernah</b> ditampilkan publik:</p>
+          <ul style="padding-left:18px;font-size:13.5px;color:#334155;display:grid;gap:8px">
+            <li>Data pribadi penerima (NIK, foto KTP, dokumen identitas)</li>
+            <li>Alamat lengkap rumah — hanya kota/kabupaten yang tampil</li>
+            <li>Nomor rekening pribadi penerima</li>
+            <li>Kontak pribadi — hanya admin yang dapat menghubungi</li>
+            <li>Nama penerima di laporan publik (ditulis samaran)</li>
+          </ul>
+        </div>
+        <!-- Lapor -->
+        <div class="panel">
+          <h3>Laporkan Penyalahgunaan</h3>
+          <p style="font-size:13.5px;color:var(--abu);margin-bottom:12px">Menemukan pengajuan mencurigakan atau penyalahgunaan amanah? Laporkan — setiap laporan masuk langsung ke admin dan ditindaklanjuti.</p>
+          <div class="field">
+            <label>Kode pengajuan / link (opsional)</label>
+            <input type="text" id="lp-kode" placeholder="Contoh: SB-2026-0003"/>
+          </div>
+          <div class="field">
+            <label>Isi Laporan <span class="req-star">*</span></label>
+            <textarea id="lp-isi" style="min-height:90px" placeholder="Jelaskan dugaan penyalahgunaan yang kamu temukan..."></textarea>
+            <p class="err">Isi laporan minimal 20 karakter.</p>
+          </div>
+          <button class="btn btn-danger" id="btn-lapor">Kirim Laporan</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="app-footer"></div>
+  <div id="toast-wrap"></div>
+  <div id="modal-root"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/konten.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/transparansi.js"></script>
+</body>
+</html>

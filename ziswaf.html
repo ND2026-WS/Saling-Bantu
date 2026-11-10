@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>ZISWAF — Zakat, Infaq, Sedekah & Wakaf | Saling Bantu</title>
+  <meta name="description" content="Modul ZISWAF yayasan: kelola zakat, infaq, sedekah, dan wakaf dari siswa, guru & tendik, orang tua santri, dan masyarakat — tersalurkan kepada yang berhak dengan transparan."/>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2316a34a'%3E%3Cpath d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'/%3E%3C/svg%3E"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body data-page="ziswaf">
+  <div id="app-header"></div>
+
+  <main class="section" style="padding-top:36px">
+    <div class="container">
+      <div class="section-head" style="margin-bottom:24px">
+        <span class="eyebrow">Zakat · Infaq · Sedekah · Wakaf</span>
+        <h2 data-sb="ziswaf_judul">ZISWAF — Dana Kebaikan Sekolah &amp; Yayasan</h2>
+        <p data-sb="ziswaf_sub">Kelola zakat, infaq, sedekah, dan wakaf dari siswa, guru &amp; tendik, orang tua santri, dan masyarakat umum — tersalurkan kembali kepada yang berhak dengan amanah.</p>
+      </div>
+
+      <div class="alert alert-info" style="margin-bottom:20px">
+        <span data-sb="ziswaf_deskripsi">ZISWAF (Zakat, Infaq, Sedekah, Wakaf) adalah program pengelolaan dana kebaikan yayasan. Dana terkumpul dari keluarga besar sekolah — siswa, guru &amp; tenaga kependidikan, orang tua santri — serta masyarakat umum, kemudian disalurkan kepada penerima manfaat: dari 8 asnaf penerima zakat hingga beasiswa siswa yatim &amp; dhuafa, operasional masjid sekolah, dan pembangunan fasilitas. Seluruh penerimaan dan penyaluran tercatat dan dapat dipantau publik di halaman ini.</span>
+      </div>
+
+      <!-- Rekap transparansi -->
+      <div class="kpi-grid" id="zw-kpi" style="grid-template-columns:repeat(4,1fr)">
+        <div class="kpi"><span class="kpi-ic k-hijau" style="display:grid"></span><b id="zw-terkumpul">-</b><span>Dana ZISWAF terkumpul</span></div>
+        <div class="kpi"><span class="kpi-ic k-oranye" style="display:grid"></span><b id="zw-tersalur">-</b><span>Telah tersalurkan</span></div>
+        <div class="kpi"><span class="kpi-ic k-biru" style="display:grid"></span><b id="zw-saldo">-</b><span>Saldo menunggu penyaluran</span></div>
+        <div class="kpi"><span class="kpi-ic k-ungu" style="display:grid"></span><b id="zw-trans">-</b><span>Transaksi tercatat</span></div>
+      </div>
+
+      <!-- 4 jenis ZISWAF -->
+      <div class="grid grid-4" id="zw-jenis" style="margin:18px 0 8px"></div>
+
+      <!-- Rekap per jenis -->
+      <div class="panel">
+        <h3>Rekap Dana per Jenis</h3>
+        <p style="font-size:13px;color:var(--abu);margin-bottom:14px">Saldo = dana terverifikasi dikurangi penyaluran yang telah tercatat. Setiap penyaluran wajib punya catatan &amp; bukti oleh pengelola ZISWAF.</p>
+        <div class="table-wrap">
+          <table class="sb">
+            <thead><tr><th>Jenis Dana</th><th>Terkumpul</th><th>Tersalur</th><th>Saldo</th><th>Progres Penyaluran</th></tr></thead>
+            <tbody id="zw-rekap"><tr><td colspan="5" style="color:var(--abu)">Memuat...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Penerimaan terbaru -->
+      <div class="panel">
+        <h3>Papan Kebaikan — Penerimaan Terbaru</h3>
+        <p style="font-size:13px;color:var(--abu);margin-bottom:14px">Hanya dana yang telah terverifikasi pengelola yang tampil. Nama pemberi yang memilih anonim tampil sebagai "Hamba Allah".</p>
+        <div class="table-wrap">
+          <table class="sb">
+            <thead><tr><th>Kode</th><th>Dari</th><th>Kelompok</th><th>Jenis &amp; Program</th><th>Nominal</th><th>Waktu</th></tr></thead>
+            <tbody id="zw-penerimaan"><tr><td colspan="6" style="color:var(--abu)">Memuat...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Penyaluran terbaru -->
+      <div class="panel">
+        <h3 data-sb="ziswaf_penyaluran_judul">Ke Mana Dana ZISWAF Mengalir?</h3>
+        <p style="font-size:13px;color:var(--abu);margin-bottom:14px" data-sb="ziswaf_penyaluran_sub">Zakat disalurkan kepada 8 asnaf (fakir, miskin, amil, muallaf, riqab, gharim, fisabilillah, ibnu sabil). Infaq, sedekah, dan wakaf dialirkan untuk beasiswa siswa yatim &amp; dhuafa, operasional masjid &amp; sekolah, pembangunan fasilitas, serta aksi kemanusiaan.</p>
+        <div class="table-wrap">
+          <table class="sb">
+            <thead><tr><th>Kode</th><th>Jenis Dana</th><th>Mustahik / Golongan</th><th>Bentuk Penyaluran</th><th>Nominal</th><th>Penerima</th></tr></thead>
+            <tbody id="zw-salur"><tr><td colspan="6" style="color:var(--abu)">Memuat...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Form ZISWAF -->
+      <div class="grid grid-2" id="form-ziswaf">
+        <div class="panel">
+          <h3>Salurkan ZISWAF Anda</h3>
+          <p style="font-size:13px;color:var(--abu);margin-bottom:14px">Isi niat baik di bawah — pengelola ZISWAF akan memverifikasi penerimaan dan mengirim konfirmasi ke dashboard Anda.</p>
+          <div id="zw-login-info" style="display:none" class="alert alert-warn"></div>
+          <div class="form-row">
+            <div class="field">
+              <label>Jenis ZISWAF <span class="req-star">*</span></label>
+              <select id="zf-jenis">
+                <option value="zakat">Zakat (maal / penghasilan / fitrah)</option>
+                <option value="infaq">Infaq</option>
+                <option value="sedekah">Sedekah</option>
+                <option value="wakaf">Wakaf</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Program / Tujuan</label>
+              <input type="text" id="zf-program" list="zf-list-program" placeholder="Contoh: Zakat Penghasilan"/>
+              <datalist id="zf-list-program"></datalist>
+            </div>
+            <div class="field">
+              <label>Saya memberi sebagai <span class="req-star">*</span></label>
+              <select id="zf-kelompok">
+                <option value="umum">Masyarakat Umum</option>
+                <option value="siswa">Siswa</option>
+                <option value="guru">Guru &amp; Tenaga Kependidikan</option>
+                <option value="ortu_santri">Orang Tua Santri</option>
+              </select>
+            </div>
+            <div class="field" id="zw-kelas-wrap" style="display:none">
+              <label>Kelas (khusus siswa)</label>
+              <input type="text" id="zf-kelas" placeholder="Contoh: 7B"/>
+            </div>
+            <div class="field">
+              <label>Nama Pemberi <span class="req-star">*</span></label>
+              <input type="text" id="zf-nama" placeholder="Nama lengkap"/>
+              <label style="display:flex;gap:8px;align-items:center;font-weight:600;margin-top:8px">
+                <input type="checkbox" id="zf-anonim" style="width:auto"/> Tampilkan sebagai "Hamba Allah" (anonim)
+              </label>
+            </div>
+            <div class="field">
+              <label>Bentuk ZISWAF</label>
+              <select id="zf-bentuk">
+                <option value="uang">Uang</option>
+                <option value="barang">Barang</option>
+              </select>
+            </div>
+            <div class="field" id="zw-jumlah-wrap">
+              <label>Nominal (Rp) <span class="req-star">*</span></label>
+              <input type="number" id="zf-jumlah" min="1000" step="1000" placeholder="Contoh: 100000"/>
+            </div>
+            <div class="field" id="zw-barang-wrap" style="display:none">
+              <label>Rincian Barang <span class="req-star">*</span></label>
+              <input type="text" id="zf-barang" placeholder="Contoh: 2 lusin buku ibadah & 1 karpet sajadah"/>
+            </div>
+            <div class="field">
+              <label>Metode Pembayaran / Penyerahan</label>
+              <select id="zf-metode">
+                <option value="transfer_bank">Transfer Bank</option>
+                <option value="tunai">Tunai / Kotak Amal</option>
+                <option value="qris">QRIS</option>
+              </select>
+            </div>
+            <div class="field" style="grid-column:1/-1">
+              <label>Catatan (opsional)</label>
+              <textarea id="zf-catatan" rows="2" placeholder="Doa, tujuan khusus, atau info pengambilan barang..."></textarea>
+            </div>
+            <div class="field">
+              <button class="btn btn-primary" id="zf-kirim" type="button">Kirim Niat Kebaikan</button>
+            </div>
+          </div>
+        </div>
+        <div>
+          <div class="panel">
+            <h3>Rekening Resmi Yayasan</h3>
+            <p style="font-size:13px;color:var(--abu);margin-bottom:12px">Setelah mengirim niat kebaikan, lakukan transfer lalu pengelola memverifikasi sesuai mutasi rekening bersama.</p>
+            <dl class="kv">
+              <dt>Bank</dt><dd id="zf-bank-nama">-</dd>
+              <dt>No. Rekening</dt><dd id="zf-bank-rek" style="font-size:18px"><b>-</b></dd>
+              <dt>Atas Nama</dt><dd id="zf-bank-an">-</dd>
+            </dl>
+            <div class="alert alert-warn" style="margin-top:12px">
+              <span>Transfer HANYA ke rekening resmi di atas. Tim yayasan tidak pernah meminta transfer ke rekening pribadi.</span>
+            </div>
+          </div>
+          <div class="panel">
+            <h3>Prinsip Pengelolaan</h3>
+            <ul style="padding-left:18px;font-size:13.5px;color:#334155;display:grid;gap:8px">
+              <li><b>Amanah:</b> zakat hanya untuk 8 asnaf; infaq/sedekah/wakaf sesuai tujuan programnya.</li>
+              <li><b>Tercatat:</b> setiap penerimaan punya kode (ZW) dan penyaluran punya kode (ZS).</li>
+              <li><b>Tersalurkan sesuai saldo:</b> penyaluran tidak boleh melebihi dana yang telah terverifikasi.</li>
+              <li><b>Privasi terjaga:</b> identitas penerima manfaat tidak dipublikasikan detail.</li>
+              <li><b>Terbuka:</b> rekap lengkap dapat dipantau kapan pun di halaman ini.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="app-footer"></div>
+  <div id="toast-wrap"></div>
+  <div id="modal-root"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/konten.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/ziswaf.js"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Masuk — Saling Bantu</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2316a34a'%3E%3Cpath d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'/%3E%3C/svg%3E"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body data-page="beranda">
+  <div id="app-header"></div>
+
+  <main class="auth-wrap">
+    <div class="auth-card">
+      <h1>Selamat Datang Kembali</h1>
+      <p class="sub">Masuk untuk mengelola pengajuan, donasi, dan kegiatan kebaikanmu.</p>
+
+      <div class="alert alert-danger" id="auth-err" style="display:none"></div>
+
+      <form id="form-masuk" novalidate>
+        <div class="field">
+          <label for="m-email">Email <span class="req-star">*</span></label>
+          <input type="email" id="m-email" placeholder="nama@email.com" autocomplete="email" required/>
+          <p class="err">Masukkan email yang valid.</p>
+        </div>
+        <div class="field">
+          <label for="m-sandi">Kata Sandi <span class="req-star">*</span></label>
+          <input type="password" id="m-sandi" placeholder="Kata sandi kamu" autocomplete="current-password" required/>
+          <p class="err">Kata sandi wajib diisi.</p>
+        </div>
+        <button class="btn btn-primary btn-block btn-lg" id="btn-masuk" type="submit">Masuk</button>
+      </form>
+
+      <p class="auth-foot">Belum punya akun? <a href="daftar.html"><b>Daftar gratis</b></a> · <a href="index.html">← Kembali ke beranda</a></p>
+
+      <div class="demo-box" id="demo-box" style="display:none">
+        <h5>Akun Demo (Mode Demo)</h5>
+        <div class="pill-group">
+          <button class="pill" data-demo="admin@salingbantu.id">Admin</button>
+          <button class="pill" data-demo="ratna@demo.id">Penerima</button>
+          <button class="pill" data-demo="budi@demo.id">Donatur</button>
+          <button class="pill" data-demo="nadia@demo.id">Volunteer</button>
+        </div>
+        <p class="hint" style="margin-top:9px">Klik salah satu untuk masuk cepat (sandi semua akun: demo1234). Tersedia saat Supabase belum dikonfigurasi.</p>
+      </div>
+    </div>
+  </main>
+
+  <div id="toast-wrap"></div>
+  <div id="modal-root"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/konten.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

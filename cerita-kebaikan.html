@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Cerita Kebaikan — Saling Bantu</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2316a34a'%3E%3Cpath d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'/%3E%3C/svg%3E"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body data-page="cerita">
+  <div id="app-header"></div>
+
+  <main class="section" style="padding-top:36px">
+    <div class="container" style="max-width:1060px">
+      <div class="section-head" style="margin-bottom:26px">
+        <span class="eyebrow">Cerita Kebaikan</span>
+        <h2>Setiap Bantuan Punya Cerita</h2>
+        <p>Kumpulan kisah penerima, pemberi, dan relawan — agar kebaikan menular.</p>
+      </div>
+
+      <div class="filter-bar" style="margin-bottom:22px">
+        <select id="s-kategori" style="flex:1;min-width:200px"><option value="">Semua Kategori</option></select>
+        <button class="btn btn-orange" id="btn-tulis">Tulis Ceritamu</button>
+      </div>
+
+      <div class="grid grid-3" id="story-grid"></div>
+
+      <!-- Form kirim cerita -->
+      <div class="panel" id="panel-cerita" style="display:none;margin-top:30px">
+        <h3 style="font-size:17px;margin-bottom:6px">Bagikan Ceritamu</h3>
+        <p style="font-size:13px;color:var(--abu);margin-bottom:16px">Cerita akan tayang setelah direview admin agar tetap beramanah. Identitas penerima bisa disamarkan.</p>
+        <div class="field">
+          <label>Judul Cerita <span class="req-star">*</span></label>
+          <input type="text" id="c-judul" maxlength="90" placeholder="Contoh: Hari Ketika Tetangga Saling Menopang"/>
+          <p class="err">Judul minimal 10 karakter.</p>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label>Kategori</label>
+            <select id="c-kategori"><option value="">Umum</option></select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Isi Cerita <span class="req-star">*</span></label>
+          <textarea id="c-isi" style="min-height:150px" placeholder="Ceritakan pengalamanmu memberi atau menerima bantuan..."></textarea>
+          <p class="err">Cerita minimal 60 karakter.</p>
+        </div>
+        <button class="btn btn-primary" id="btn-kirim-cerita">Kirim untuk Review</button>
+      </div>
+    </div>
+  </main>
+
+  <div id="app-footer"></div>
+  <div id="toast-wrap"></div>
+  <div id="modal-root"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/konten.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/cerita.js"></script>
+</body>
+</html>

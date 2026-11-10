@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Ajukan Bantuan — Saling Bantu</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2316a34a'%3E%3Cpath d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'/%3E%3C/svg%3E"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body data-page="beranda">
+  <div id="app-header"></div>
+
+  <main class="section" style="padding-top:36px">
+    <div class="container">
+      <!-- Panel untuk yang belum login -->
+      <div id="panel-login-dulu" style="display:none;max-width:560px;margin:0 auto;text-align:center" class="card card-pad">
+        <div class="empty" style="padding:26px 10px">
+          <p style="font-size:16px;color:var(--tinta);font-weight:700;font-family:var(--font-judul)">Masuk Dulu untuk Mengajukan Bantuan</p>
+          <p>Agar pengajuanmu bisa dipantau dan diverifikasi dengan aman, diperlukan akun terlebih dahulu. Gratis, 2 menit selesai.</p>
+          <div style="display:flex;gap:10px;justify-content:center;margin-top:16px">
+            <a class="btn btn-primary" href="masuk.html?next=ajukan-bantuan.html">Masuk</a>
+            <a class="btn btn-ghost" href="daftar.html">Daftar Akun Baru</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Konten utama -->
+      <div id="panel-ajukan" style="display:none">
+        <div class="dash-layout" style="grid-template-columns:1fr 320px;padding:0 0 20px">
+          <div>
+            <div class="panel">
+              <h2 style="font-size:21px;margin-bottom:4px">Ajukan Bantuan</h2>
+              <p style="color:var(--abu);font-size:14px;margin-bottom:20px">Ceritakan kebutuhanmu dengan jujur dan lengkap. Tim admin akan memverifikasi dalam 1-2 hari kerja.</p>
+
+              <div class="alert alert-info" id="notifikasi-demo" style="display:none"></div>
+
+              <form id="form-ajukan" novalidate>
+                <div class="form-row">
+                  <div class="field">
+                    <label>Kategori Bantuan <span class="req-star">*</span></label>
+                    <select id="a-kategori" required><option value="">Pilih kategori...</option></select>
+                    <p class="err">Pilih kategori.</p>
+                  </div>
+                  <div class="field">
+                    <label>Kebutuhan Spesifik <span class="req-star">*</span></label>
+                    <select id="a-sub" required disabled><option value="">Pilih kategori dulu...</option></select>
+                    <p class="err">Pilih kebutuhan spesifik.</p>
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Judul Pengajuan <span class="req-star">*</span></label>
+                  <input type="text" id="a-judul" maxlength="90" placeholder="Contoh: Bantuan biaya pengobatan anak sakit kronis"/>
+                  <p class="err">Judul wajib diisi (min. 10 karakter).</p>
+                </div>
+                <div class="field">
+                  <label>Deskripsi Kebutuhan <span class="req-star">*</span></label>
+                  <textarea id="a-deskripsi" placeholder="Jelaskan kondisi kebutuhanmu: siapa yang membutuhkan, mengapa, dan bagaimana bantuan akan digunakan."></textarea>
+                  <p class="err">Deskripsi minimal 30 karakter agar mudah diverifikasi.</p>
+                </div>
+                <div class="form-row">
+                  <div class="field">
+                    <label>Perkiraan Kebutuhan Dana (Rp) <span style="color:var(--abu);font-weight:400">(opsional)</span></label>
+                    <input type="number" id="a-kebutuhan" min="0" step="10000" placeholder="Contoh: 5000000"/>
+                    <p class="hint">Isi 0 / kosong jika kebutuhan berupa barang atau tenaga.</p>
+                  </div>
+                  <div class="field">
+                    <label>Kota / Kabupaten <span class="req-star">*</span></label>
+                    <input type="text" id="a-kota" placeholder="Contoh: Bandung"/>
+                    <p class="err">Isi kota/kabupaten.</p>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="field">
+                    <label>Provinsi</label>
+                    <input type="text" id="a-provinsi" placeholder="Contoh: Jawa Barat"/>
+                  </div>
+                  <div class="field">
+                    <label>Kontak yang Dapat Dihubungi <span class="req-star">*</span></label>
+                    <input type="tel" id="a-kontak" placeholder="08xx (hanya admin yang melihat)"/>
+                    <p class="err">Isi nomor kontak aktif.</p>
+                  </div>
+                </div>
+                <div class="form-row">
+                  <div class="field">
+                    <label>Foto Kondisi / Kebutuhan</label>
+                    <div class="file-drop" id="drop-foto">Klik untuk pilih foto (JPG/PNG, maks 2 MB)</div>
+                    <input type="file" id="a-foto" accept="image/*" style="display:none"/>
+                    <div id="chip-foto"></div>
+                  </div>
+                  <div class="field">
+                    <label>Dokumen Pendukung (surat keterangan, dll)</label>
+                    <div class="file-drop" id="drop-dok">Klik untuk pilih dokumen (PDF/JPG, maks 3 MB)</div>
+                    <input type="file" id="a-dok" accept=".pdf,image/*" style="display:none"/>
+                    <div id="chip-dok"></div>
+                  </div>
+                </div>
+                <div class="field">
+                  <label class="checkbox"><input type="checkbox" id="a-setuju"/> Saya menyatakan data yang saya isi <b>benar dan dapat dipertanggungjawabkan</b>. Saya memahami pengajuan akan diverifikasi admin dan dapat ditolak bila tidak memenuhi ketentuan.</label>
+                </div>
+                <button class="btn btn-primary btn-lg btn-block" id="btn-ajukan" type="submit">Kirim Pengajuan</button>
+              </form>
+            </div>
+          </div>
+
+          <aside>
+            <div class="panel" style="position:sticky;top:84px">
+              <h3><span class="k-ic k-biru" style="display:inline-grid;margin-right:6px">i</span> Bagaimana Prosesnya?</h3>
+              <ol style="padding-left:18px;font-size:13.5px;color:#334155;display:grid;gap:9px">
+                <li><b>1. Kirim pengajuan</b> — isi form lengkap + foto/dokumen.</li>
+                <li><b>2. Verifikasi admin</b> — status berubah menjadi <i>Dalam Proses Verifikasi</i>.</li>
+                <li><b>3. Dipublikasikan</b> — pengajuanmu terlihat donatur publik.</li>
+                <li><b>4. Menerima bantuan</b> — kamu menerima notifikasi setiap ada bantuan masuk.</li>
+                <li><b>5. Laporan penggunaan</b> — bantu admin membuat laporan akhir agar tetap transparan.</li>
+              </ol>
+              <div class="alert alert-warn" style="margin-top:14px;margin-bottom:0">
+                <span>Pengajuan palsu = penyalahgunaan amanah publik. Data identitas diminta admin bila diperlukan untuk verifikasi, dan tidak pernah ditampilkan publik.</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+
+        <div class="panel" id="panel-pengajuan-saya">
+          <h3>Pengajuan Saya</h3>
+          <div id="daftar-saya"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="app-footer"></div>
+  <div id="toast-wrap"></div>
+  <div id="modal-root"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/konten.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/ajukan.js"></script>
+</body>
+</html>

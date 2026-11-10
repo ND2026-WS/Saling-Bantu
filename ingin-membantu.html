@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Ingin Membantu — Saling Bantu</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2316a34a'%3E%3Cpath d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'/%3E%3C/svg%3E"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body data-page="membantu">
+  <div id="app-header"></div>
+
+  <main class="section" style="padding-top:36px">
+    <div class="container" style="max-width:1060px">
+      <div class="section-head" style="margin-bottom:26px">
+        <span class="eyebrow">Ingin Membantu</span>
+        <h2>Ada Lima Cara Berbagi — Pilih yang Paling Kamu Bisa</h2>
+        <p>Finansial, barang, tenaga, keahlian, atau jaringan koneksi. Semua bentuk kebaikan tercatat dan diteruskan sesuai amanah.</p>
+      </div>
+
+      <div class="alert alert-warn" id="login-info" style="display:none"></div>
+
+      <div class="tabs">
+        <button class="tab on" data-tab="donasi">Beri Bantuan</button>
+        <button class="tab" data-tab="volunteer">Jadi Volunteer</button>
+        <button class="tab" data-tab="komunitas">Komunitas</button>
+      </div>
+
+      <!-- ============ TAB DONASI ============ -->
+      <section id="tab-donasi">
+        <div class="dash-layout" style="grid-template-columns:1fr 330px;padding:0">
+          <div class="panel">
+            <h3 style="font-size:17px">Formulir Pemberian Bantuan</h3>
+            <div class="field">
+              <label>Pilih Pengajuan <span class="req-star">*</span></label>
+              <select id="t-pengajuan"></select>
+              <p class="hint">Kotak info pengajuan terpilih tampil di samping.</p>
+            </div>
+            <div class="field">
+              <label>Jenis Bantuan <span class="req-star">*</span></label>
+              <div class="pill-group" id="jenis-group"></div>
+            </div>
+            <div class="field" id="field-jumlah">
+              <label>Nominal (Rp) <span class="req-star">*</span></label>
+              <input type="number" id="t-jumlah" min="10000" step="10000" placeholder="Contoh: 100000"/>
+              <p class="hint">Pengembangan berikutnya akan terhubung payment gateway resmi. Untuk saat ini catat transfermu, admin akan mengonfirmasi.</p>
+              <p class="err">Nominal minimal Rp 10.000.</p>
+            </div>
+            <div class="field" id="field-barang" style="display:none">
+              <label>Detail Barang / Tenangan / Keahlian <span class="req-star">*</span></label>
+              <textarea id="t-barang" style="min-height:80px" placeholder="Contoh: 10 paket sembako / siap memperbaiki atap hari Minggu / bersedia memberi kelas desain gratis"></textarea>
+              <p class="err">Ceritakan bentuk bantuanmu (min. 10 karakter).</p>
+            </div>
+            <div class="field">
+              <label>Pesan / Doa (opsional)</label>
+              <input type="text" id="t-pesan" maxlength="140" placeholder="Contoh: Semoga memberi kekuatan, ya!"/>
+            </div>
+            <div class="field">
+              <label class="checkbox"><input type="checkbox" id="t-anonim"/> Tampilkan sebagai <b>Hamba Allah</b> (sembunyikan namamu)</label>
+            </div>
+            <button class="btn btn-orange btn-lg btn-block" id="btn-donasi">Kirim Niat Baik Saya</button>
+            <p class="hint" style="text-align:center;margin-top:10px">Kuitansi digital otomatis dibuat setelah admin mengonfirmasi.</p>
+          </div>
+
+          <aside>
+            <div class="card" id="ringkas-pengajuan" style="padding:18px;margin-bottom:16px">
+              <h4 style="font-size:14px;margin-bottom:10px;color:var(--abu)">PENGAJUAN TERPILIH</h4>
+              <div id="ringkas-isi"><p style="font-size:13px;color:var(--abu)">Pilih pengajuan dari daftar.</p></div>
+            </div>
+            <div class="panel" style="padding:18px">
+              <h4 style="font-size:14px;margin-bottom:8px">Transfer ke Rekening Aman Bersama</h4>
+              <dl class="kv" style="grid-template-columns:110px 1fr">
+                <dt>Bank</dt><dd id="bank-nama"></dd>
+                <dt>No. Rekening</dt><dd><b id="bank-rek"></b></dd>
+                <dt>Atas Nama</dt><dd id="bank-an"></dd>
+              </dl>
+              <div class="alert alert-info" style="margin:12px 0 0">
+                <span>Setelah transfer, kirim konfirmasi di sini. Admin mencocokkan dengan mutasi sebelum donasi dihitung <b>terkonfirmasi</b> — prinsip audit penuh.</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ============ TAB VOLUNTEER ============ -->
+      <section id="tab-volunteer" style="display:none">
+        <div class="dash-layout" style="grid-template-columns:1fr 330px;padding:0">
+          <div>
+            <div class="panel">
+              <h3 style="font-size:17px">Kegiatan Volunteer Terdekat</h3>
+              <div id="daftar-kegiatan"></div>
+            </div>
+            <div class="panel" id="panel-profil-volunteer" style="display:none">
+              <h3>Profil Volunteer Saya</h3>
+              <div id="isi-profil-volunteer"></div>
+            </div>
+          </div>
+          <aside>
+            <div class="panel">
+              <h3 style="font-size:16px">Daftar Jadi Volunteer</h3>
+              <p style="font-size:13px;color:var(--abu);margin-bottom:14px">Ceritakan keahlianmu — bisa mengajar, memasak, memperbaiki rumah, desain, atau sekadar tenaga.</p>
+              <div class="field">
+                <label>Keahlian (pisahkan dengan koma) <span class="req-star">*</span></label>
+                <input type="text" id="v-keahlian" placeholder="Contoh: Mengajar, Memasak, Desain"/>
+                <p class="err">Tulis minimal satu keahlian.</p>
+              </div>
+              <div class="field">
+                <label>Kota Domisili <span class="req-star">*</span></label>
+                <input type="text" id="v-kota" placeholder="Contoh: Yogyakarta"/>
+                <p class="err">Isi kota domisili.</p>
+              </div>
+              <div class="field">
+                <label>Ketersediaan Waktu</label>
+                <select id="v-waktu">
+                  <option value="akhir_pekan">Akhir pekan</option>
+                  <option value="weekdays">Hari kerja</option>
+                  <option value="fleksibel">Fleksibel</option>
+                </select>
+              </div>
+              <button class="btn btn-primary btn-block" id="btn-volunteer">Simpan &amp; Jadi Volunteer</button>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ============ TAB KOMUNITAS ============ -->
+      <section id="tab-komunitas" style="display:none">
+        <div class="dash-layout" style="grid-template-columns:1fr 330px;padding:0">
+          <div class="panel">
+            <h3 style="font-size:17px">Komunitas di Saling Bantu</h3>
+            <p style="font-size:13.5px;color:var(--abu);margin-bottom:16px">Bergabung dengan komunitas untuk membuat kegiatan bersama, proyek gotong royong, dan laporan aksi yang terbuka.</p>
+            <div id="daftar-komunitas"></div>
+          </div>
+          <aside>
+            <div class="panel">
+              <h3 style="font-size:16px">Buat Komunitas Baru</h3>
+              <div class="field">
+                <label>Nama Komunitas <span class="req-star">*</span></label>
+                <input type="text" id="c-nama" placeholder="Contoh: Sahabat Malang Berbagi"/>
+                <p class="err">Nama minimal 5 karakter.</p>
+              </div>
+              <div class="field">
+                <label>Kota</label>
+                <input type="text" id="c-kota" placeholder="Contoh: Malang"/>
+              </div>
+              <div class="field">
+                <label>Deskripsi</label>
+                <textarea id="c-desk" style="min-height:80px" placeholder="Apa fokus kegiatan komunitasmu?"></textarea>
+              </div>
+              <button class="btn btn-blue btn-block" id="btn-komunitas">Buat Komunitas</button>
+            </div>
+          </aside>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div id="app-footer"></div>
+  <div id="toast-wrap"></div>
+  <div id="modal-root"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/konten.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/membantu.js"></script>
+</body>
+</html>

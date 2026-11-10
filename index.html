@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Saling Bantu — Ringankan Beban, Tebarkan Kebaikan</title>
+  <meta name="description" content="Platform gotong royong digital: ajukan dan berikan bantuan sosial, kesehatan, pendidikan, tenaga, barang, dan usaha dengan transparan."/>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2316a34a'%3E%3Cpath d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'/%3E%3C/svg%3E"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body data-page="beranda">
+  <div id="app-header"></div>
+
+  <main>
+    <!-- ===== HERO ===== -->
+    <section class="hero">
+      <div class="container hero-in">
+        <div>
+          <span class="hero-badge"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/><line x1="7" y1="12" x2="17" y2="12"/></svg> <span data-sb="hero_badge">Platform Gotong Royong Digital Indonesia</span></span>
+          <h1><span data-sb="hero_judul">Karena Kita Tidak Harus Menghadapi Semuanya</span> <em data-sb="hero_judul_em">Sendirian.</em></h1>
+          <p class="hero-sub" data-sb="hero_sub">Setiap orang bisa membutuhkan bantuan. Setiap orang juga bisa menjadi alasan seseorang kembali tersenyum.</p>
+          <div class="hero-cta">
+            <a class="btn btn-primary btn-lg" href="ajukan-bantuan.html" data-sb="hero_cta1">SAYA MEMBUTUHKAN BANTUAN</a>
+            <a class="btn btn-orange btn-lg" href="ingin-membantu.html" data-sb="hero_cta2">SAYA INGIN MEMBANTU</a>
+            <a class="btn btn-outline btn-lg" href="donasi-cepat.html">DONASI CEPAT — TANPA DAFTAR</a>
+          </div>
+          <p class="hero-note"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> <span data-sb="hero_note">Setiap pengajuan diverifikasi admin &nbsp;·&nbsp; Dana tercatat transparan &nbsp;·&nbsp; Gratis untuk semua</span></p>
+        </div>
+        <div class="hero-art">
+          <div class="hero-orb"></div>
+          <div class="hcard hc-1">
+            <h5>Dana tersalurkan</h5>
+            <b style="color:var(--hijau-tua)" data-sb="hero_dana">Rp 4,2 M</b>
+            <div class="hc-stack" style="margin-top:8px">
+              <span class="avatar" style="width:26px;height:26px;font-size:10px">BW</span>
+              <span class="avatar biru" style="width:26px;height:26px;font-size:10px">SA</span>
+              <span class="avatar oranye" style="width:26px;height:26px;font-size:10px">+</span>
+            </div>
+          </div>
+          <div class="hcard hc-2 hc-ok">
+            <span class="k-ic k-hijau"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>
+            <div><h5>Verifikasi admin</h5><b style="font-size:14px">Pengajuan terjamin</b></div>
+          </div>
+          <div class="hcard hc-3">
+            <h5>Sedang mendapat bantuan</h5>
+            <b style="color:var(--oranye-tua)" data-sb="hero_bantu">128 pengajuan</b>
+            <div style="margin-top:7px" class="progress"><div class="progress-bar" style="width:68%"></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== STATISTIK ===== -->
+    <section class="stats-band">
+      <div class="container">
+        <div class="stats-grid" id="stats-grid">
+          <div class="stat"><b data-hitung="12480" data-sb-hitung="stat_pengguna">0</b><span data-sb="stat_pengguna_label">Pengguna terdaftar</span></div>
+          <div class="stat"><b data-hitung="3276" data-sb-hitung="stat_pengajuan">0</b><span data-sb="stat_pengajuan_label">Pengajuan bantuan</span></div>
+          <div class="stat"><b data-hitung="2914" data-sb-hitung="stat_tersalur">0</b><span data-sb="stat_tersalur_label">Bantuan tersalurkan</span></div>
+          <div class="stat"><b data-hitung="1850" data-sb-hitung="stat_volunteer">0</b><span data-sb="stat_volunteer_label">Volunteer aktif</span></div>
+          <div class="stat"><b data-hitung="320" data-sb-hitung="stat_komunitas">0</b><span data-sb="stat_komunitas_label">Komunitas bergabung</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BANTUAN TERBARU ===== -->
+    <section class="section" id="bantuan-terbaru">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Bantuan Terbaru</span>
+          <h2 data-sb="sec_bantuan_judul">Mereka Sedang Menunggu Tangan Baik Anda</h2>
+          <p data-sb="sec_bantuan_sub">Semua pengajuan di bawah telah melewati proses verifikasi admin. Anda bisa melihat detail lalu memilih cara membantu.</p>
+        </div>
+        <div class="grid grid-3" id="req-grid"></div>
+        <div class="more-link"><a class="btn btn-ghost" href="cari-bantuan.html">Lihat Semua Pengajuan →</a></div>
+      </div>
+    </section>
+
+    <!-- ===== KATEGORI ===== -->
+    <section class="section alt" id="kategori">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Kategori Bantuan</span>
+          <h2 data-sb="sec_kategori_judul">Enam Pintu Kebaikan, Satu Tujuan</h2>
+          <p data-sb="sec_kategori_sub">Temukan bentuk bantuan yang paling sesuai dengan kemampuan dan kepedulian Anda.</p>
+        </div>
+        <div class="grid grid-3" id="cat-grid"></div>
+      </div>
+    </section>
+
+    <!-- ===== CERITA KEBAIKAN ===== -->
+    <section class="section" id="cerita">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Cerita Kebaikan</span>
+          <h2 data-sb="sec_cerita_judul">Bukti Bahwa Kebaikan Mengalir Kembali</h2>
+          <p data-sb="sec_cerita_sub">Kisah nyata dari penerima dan pemberi bantuan yang saling terhubung di platform ini.</p>
+        </div>
+        <div class="grid grid-3" id="story-grid"></div>
+        <div class="more-link"><a class="btn btn-ghost" href="cerita-kebaikan.html">Baca Semua Cerita →</a></div>
+      </div>
+    </section>
+
+    <!-- ===== ZISWAF ===== -->
+    <section class="section alt" id="ziswaf">
+      <div class="container">
+        <div class="section-head">
+          <span class="eyebrow">Zakat · Infaq · Sedekah · Wakaf</span>
+          <h2 data-sb="ziswaf_judul">ZISWAF — Dana Kebaikan Sekolah &amp; Yayasan</h2>
+          <p data-sb="ziswaf_sub">Kelola zakat, infaq, sedekah, dan wakaf dari siswa, guru &amp; tendik, orang tua santri, dan masyarakat umum — tersalurkan kembali kepada yang berhak dengan amanah.</p>
+        </div>
+        <div class="grid grid-4" id="ziswaf-jenis"></div>
+        <div class="more-link">
+          <a class="btn btn-primary" href="ziswaf.html">Buka Modul ZISWAF &amp; Salurkan Kebaikan →</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== CTA ===== -->
+    <section class="section" style="padding-top:0">
+      <div class="container">
+        <div class="cta-band">
+          <div>
+            <h2 data-sb="cta_judul">Mulai Berbagi Hari Ini — Kecil Apapun Bentuknya</h2>
+            <p data-sb="cta_sub">Daftar gratis sebagai penerima, donatur, atau volunteer. Bersama, beban yang berat menjadi ringan.</p>
+          </div>
+          <div style="display:flex;gap:11px;flex-wrap:wrap">
+            <a class="btn btn-white btn-lg" href="daftar.html" data-sb="cta_btn1">Gabung Sekarang</a>
+            <a class="btn btn-line btn-lg" href="transparansi.html" data-sb="cta_btn2">Laporan Transparansi</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="app-footer"></div>
+  <div id="toast-wrap"></div>
+  <div id="modal-root"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/konten.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/beranda.js"></script>
+</body>
+</html>

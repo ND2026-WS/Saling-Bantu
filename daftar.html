@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Daftar — Saling Bantu</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2316a34a'%3E%3Cpath d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'/%3E%3C/svg%3E"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+</head>
+<body data-page="beranda">
+  <div id="app-header"></div>
+
+  <main class="auth-wrap">
+    <div class="auth-card">
+      <h1>Buat Akun Baru</h1>
+      <p class="sub">Satu akun untuk semua peran: penerima bantuan, donatur, dan volunteer.</p>
+
+      <div class="alert alert-danger" id="auth-err" style="display:none"></div>
+
+      <form id="form-daftar" novalidate>
+        <div class="field">
+          <label>Nama Lengkap <span class="req-star">*</span></label>
+          <input type="text" id="d-nama" placeholder="Nama sesuai identitas" required/>
+          <p class="err">Nama wajib diisi (min. 3 karakter).</p>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label>Email <span class="req-star">*</span></label>
+            <input type="email" id="d-email" placeholder="nama@email.com" required/>
+            <p class="err">Email tidak valid.</p>
+          </div>
+          <div class="field">
+            <label>No. WhatsApp <span class="req-star">*</span></label>
+            <input type="tel" id="d-telp" placeholder="08xx xxxx xxxx" required/>
+            <p class="err">Nomor telepon wajib diisi.</p>
+          </div>
+        </div>
+        <div class="field">
+          <label>Saya mendaftar sebagai <span class="req-star">*</span></label>
+          <div class="pill-group" id="peran-group">
+            <button type="button" class="pill on" data-peran="penerima">Penerima Bantuan</button>
+            <button type="button" class="pill" data-peran="donatur">Donatur</button>
+            <button type="button" class="pill" data-peran="volunteer">Volunteer</button>
+          </div>
+          <p class="hint">Peran dapat dikembangkan nanti — satu akun bisa berdonasi sekaligus mengajukan.</p>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label>Kata Sandi <span class="req-star">*</span></label>
+            <input type="password" id="d-sandi" placeholder="Min. 8 karakter" required minlength="8"/>
+            <p class="err">Kata sandi minimal 8 karakter.</p>
+          </div>
+          <div class="field">
+            <label>Ulangi Sandi <span class="req-star">*</span></label>
+            <input type="password" id="d-sandi2" placeholder="Ulangi kata sandi" required/>
+            <p class="err">Kata sandi tidak sama.</p>
+          </div>
+        </div>
+        <div class="field">
+          <label class="checkbox"><input type="checkbox" id="d-setuju"/> Saya menyetujui <a href="tentang.html">ketentuan layanan</a> dan berjanji memberikan data yang benar. Penyalahgunaan pengajuan akan ditindak.</label>
+        </div>
+        <button class="btn btn-primary btn-block btn-lg" id="btn-daftar" type="submit">Buat Akun</button>
+      </form>
+
+      <p class="auth-foot">Sudah punya akun? <a href="masuk.html"><b>Masuk di sini</b></a></p>
+    </div>
+  </main>
+
+  <div id="toast-wrap"></div>
+  <div id="modal-root"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+  <script src="js/config.js"></script>
+  <script src="js/core.js"></script>
+  <script src="js/store.js"></script>
+  <script src="js/konten.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>
