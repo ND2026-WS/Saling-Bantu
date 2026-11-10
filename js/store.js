@@ -1629,6 +1629,14 @@ window.SB = window.SB || {};
   SB.store = chosen;
   SB.MODE = MODE;
 
+  /* Kompatibilitas nama lama: bila salah satu file js di browser masih
+     versi lama yang memanggil S.store.listGalery (salah ketik lama),
+     panggilan itu tetap diarahkan ke metode galeri yang benar sehingga
+     modul Galeri Kegiatan tidak gagal dimuat. */
+  ["listGaleri", "createGaleri", "updateGaleri", "deleteGaleri"].forEach((nm) => {
+    if (typeof chosen[nm] === "function") chosen[nm.replace("Galeri", "Galery")] = chosen[nm].bind(chosen);
+  });
+
   /* ==========================================================
      SB.watchData(cb) — langganan perubahan data global.
      Dipakai semua halaman agar tampilan ikut memuat ulang secara

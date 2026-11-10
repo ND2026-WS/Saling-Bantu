@@ -774,3 +774,34 @@ foto contoh (digambar sebagai SVG kecil, tanpa file gambar eksternal).
 - **Foto besar membuat galeri lambat**: unggahan otomatis dikompres ke
   1280 px, namun tautan eksternal tidak — gunakan CDN/penyimpanan
   gambar yang cepat bila menempel tautan.
+- **"Gagal memuat modul: S.store.listGalery is not a function"**: browser
+  masih memegang berkas lama dari versi antara (salah ketik lama). Dua
+  lapis perbaikan sudah disiapkan: (1) semua `js/*.js` & `css/style.css`
+  kini diberi akhiran `?v=19` agar cache browser otomatis mengambil
+  berkas terbaru, (2) `store.js` menyediakan alias `listGalery` →
+  `listGaleri`. Solusi: ganti SEMUA berkas dengan isi zip terbaru,
+  lalu tekan **Ctrl+Shift+R** (hard refresh). Jangan mengganti sebagian
+  berkas saja — seluruh isi folder harus dari versi yang sama.
+
+## 14. Data Awal Muncul Dua Kali (Cerita / Kegiatan Dobel) (v1.8.1)
+
+**Gejala**: halaman **Cerita Kebaikan** (dan daftar kegiatan di halaman
+Transparansi) menampilkan setiap isi dua kali atau lebih — misalnya cerita
+"Dari Penerima Menjadi Pemberi" muncul dua kartu.
+
+**Penyebab**: `supabase_schema.sql` versi lama menanam cerita & kegiatan
+contoh dengan `on conflict do nothing`, padahal kedua tabel memakai UUID
+acak sebagai primary key. Akibatnya "conflict" tidak pernah terjadi dan
+setiap kali skema dijalankan ULANG (misalnya untuk menambah modul Galeri),
+seluruh data contoh ditambahkan sekali lagi dengan ID berbeda.
+
+**Solusi untuk database yang sudah dobel**: jalankan seluruh isi
+`sql/update_fix_duplikat.sql` di SQL Editor Supabase. File tersebut
+menghapus salinan dobel (menyisakan satu baris tertua per judul),
+menampilkan jumlah sebelum/sesudah, aman dijalankan berulang, dan tidak
+menyentuh cerita/kegiatan buatan pengguna maupun data pengajuan, donasi,
+dan ZISWAF.
+
+**Pencegahan**: seed cerita & kegiatan di `supabase_schema.sql` kini
+anti-dobel (baris dilewati otomatis bila judulnya sudah ada), jadi
+menjalankan ulang skema tidak akan menduplikasi apa pun lagi.

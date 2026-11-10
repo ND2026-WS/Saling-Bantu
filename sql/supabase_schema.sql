@@ -944,8 +944,14 @@ insert into public.assistance_categories (code, name, icon, color, description, 
    '["Dukungan Modal UMKM","Pelatihan Keterampilan","Bantuan Pemasaran","Mentoring Bisnis","Kemitraan Usaha"]'::jsonb)
 on conflict (code) do nothing;
 
--- cerita pembuka (publik)
-insert into public.stories (author_name, title, content, category_code, status, is_published, created_at) values
+-- cerita pembuka (publik) — ANTI DOBEL: tabel stories memakai UUID acak,
+-- sehingga "on conflict do nothing" tidak pernah mengenai apa pun saat file
+-- ini dijalankan ulang dan cerita lama menjadi dua. Baris di bawah dilewati
+-- otomatis bila judulnya sudah ada → jalankan ulang skema TIDAK menduplikasi.
+insert into public.stories (author_name, title, content, category_code, status, is_published, created_at)
+select v.author_name, v.title, v.content, v.category_code,
+       v.status::story_status, v.is_published, v.created_at
+from (values
   ('Tim Saling Bantu',
    'Dari Penerima Menjadi Pemberi',
    'Dua tahun lalu Ibu Ratna menerima bantuan biaya pengobatan untuk anaknya melalui platform ini. Kini, setiap akhir pekan, ia menjadi relawan dapur bersama di komunitasnya. "Dulu saya yang dibantu. Sekali seumur hidup merasakan kebaikan orang, susah untuk tidak membantu balik," katanya sambil menyendok sup panas untuk warga.',
@@ -958,10 +964,14 @@ insert into public.stories (author_name, title, content, category_code, status, 
    'Buku Bekas, Harapan Baru',
    'Galeri tukar buku komunitas Peduli Nusantara mengumpulkan 1.240 buku dalam tiga minggu. Buku-buku itu kini mengisi perpustakaan mini di tiga desa. Anak-anak tidak hanya mendapat buku, tapi juga kakak pembimbing dari relawan guru yang mengajar setiap Sabtu.',
    'pendidikan', 'disetujui', true, now() - interval '21 days')
-on conflict do nothing;
+) as v(author_name, title, content, category_code, status, is_published, created_at)
+where not exists (select 1 from public.stories s where s.title = v.title);
 
--- kegiatan pembuka
-insert into public.social_events (title, description, event_type, category_code, location, event_date, quota, status) values
+-- kegiatan pembuka — ANTI DOBEL (prinsip sama dengan cerita di atas)
+insert into public.social_events (title, description, event_type, category_code, location, event_date, quota, status)
+select v.title, v.description, v.event_type, v.category_code, v.location,
+       v.event_date, v.quota, v.status::event_status
+from (values
   ('Bersih Pantai & Bagi 100 Paket Sembako',
    'Bergabung bersama relawan membersihkan pantai dan menyerahkan 100 paket sembako untuk warga nelayan prasejahtera.',
    'volunteer', 'sosial', 'Pantai Cemara, Bantul, Yogyakarta', now() + interval '12 days', 50, 'terjadwal'),
@@ -971,7 +981,8 @@ insert into public.social_events (title, description, event_type, category_code,
   ('Donor Darah Bersama Komunitas',
    'Donor darah rutin tiga bulanan bersama bank darah setempat. Pendaftar mendapat sertifikat donor & snack sehat.',
    'komunitas', 'kesehatan', 'Aula Kecamatan', now() + interval '17 days', 100, 'terjadwal')
-on conflict do nothing;
+) as v(title, description, event_type, category_code, location, event_date, quota, status)
+where not exists (select 1 from public.social_events e where e.title = v.title);
 
 -- komunitas pembuka
 insert into public.communities (name, slug, description, city, member_count) values
