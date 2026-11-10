@@ -16,6 +16,7 @@
     { id: "donasi", label: "Manajemen Donasi", icon: "credit" },
     { id: "ziswaf", label: "Modul ZISWAF", icon: "gift" },
     { id: "konten", label: "Manajemen Konten", icon: "megaphone" },
+    { id: "galeri", label: "Galeri Kegiatan", icon: "image" },
     { id: "isi", label: "Isi Website", icon: "book" },
     { id: "laporan", label: "Laporan", icon: "clipboard" },
     { id: "pengaturan", label: "Pengaturan", icon: "settings" }
@@ -24,7 +25,7 @@
   const BOLEH_KELOLA = ["admin", "pengelola"];
 
   let user = null;
-  let cache = { users: [], requests: [], donations: [], stories: [], ziswaf: [], ziswafSalur: [] };
+  let cache = { users: [], requests: [], donations: [], stories: [], ziswaf: [], ziswafSalur: [], galeri: [] };
   let bulanLaporan = null; /* bulan terpilih pada panel Laporan (bertahan saat re-render) */
 
   function head(judul, sub, tombolHtml) {
@@ -1536,6 +1537,141 @@
     });
   }
 
+  /* ================= GALERI KEGIATAN =================
+     Dokumentasi foto program & kegiatan: unggah (otomatis dikompres
+     lewat SB.laporan.kompresGambar) atau tempel tautan gambar.
+     Status Tayang/Arsip mengendalikan keterlihatan di halaman publik. */
+  function kartuAdminGaleri(g, proyekNama) {
+    const kat = (S.GALERI_KATEGORI || {})[g.kategori];
+    const proyek = g.requestId && proyekNama[g.requestId] ? proyekNama[g.requestId] : "";
+    return (
+      '<article class="gal-card' + (g.status === "arsip" ? " gal-arsip" : "") + '">' +
+      '<div class="gal-img"><img src="' + S.esc(g.foto) + '" alt="' + S.esc(g.judul) + '" loading="lazy"/>' +
+      '<span class="gal-st">' + (g.status === "aktif" ? '<span class="badge st-hijau">Tayang</span>' : '<span class="badge st-abu">Arsip</span>') + "</span></div>" +
+      '<div class="gal-body">' +
+      '<div class="gal-badges">' + (kat ? '<span class="badge st-' + kat.warna + '">' + S.esc(kat.label) + "</span>" : "") +
+      (proyek ? '<span class="badge badge-kategori">' + S.icon("file", 12) + " " + S.esc(proyek.length > 30 ? proyek.slice(0, 30) + "…" : proyek) + "</span>" : "") +
+      "</div>" +
+      "<h3>" + S.esc(g.judul) + "</h3>" +
+      (g.keterangan ? '<p class="gal-ket">' + S.esc(g.keterangan) + "</p>" : "") +
+      '<small class="gal-tgl">' + S.icon("user", 12) + " " + S.esc(g.oleh) + " • " + S.tanggal(g.tanggal) + "</small>" +
+      '<div class="td-actions" style="margin-top:10px">' +
+      '<button class="btn btn-ghost btn-sm" data-edit-gal="' + g.id + '">Edit</button>' +
+      '<button class="btn btn-ghost btn-sm" data-toggle-gal="' + g.id + '">' + (g.status === "aktif" ? "Arsipkan" : "Tayangkan") + "</button>" +
+      '<button class="btn btn-danger btn-sm" data-del-gal="' + g.id + '">Hapus</button>' +
+      "</div></div></article>"
+    );
+  }
+
+  async function vGaleri() {
+    const galeri = await S.store.listGaleri({});
+    cache.galeri = galeri;
+    if (!cache.requests.length) {
+      try { cache.requests = await S.store.listRequests({}); } catch (e) { /* pakai cache yang ada */ }
+    }
+    const proyekNama = {};
+    (cache.requests || []).forEach((r) => { proyekNama[r.id] = r.judul; });
+
+    let html = head("Galeri Kegiatan", "Dokumentasi foto program & kegiatan — tayang di halaman publik Galeri.",
+      '<button class="btn btn-primary" id="btn-tambah-galeri">' + S.icon("plus", 15) + " Tambah Foto</button>");
+    html += '<div class="alert alert-info" style="margin-bottom:14px">' + S.icon("image", 16) +
+      "<span>Foto dapat diunggah dari perangkat (otomatis dikompres) atau ditempel berupa tautan gambar. Foto berstatus <b>Arsip</b> tidak tampil di halaman publik.</span></div>";
+    html += galeri.length
+      ? '<div class="grid grid-3" id="galeri-admin-grid">' + galeri.map((g) => kartuAdminGaleri(g, proyekNama)).join("") + "</div>"
+      : S.kosong("Belum ada foto. Klik Tambah Foto untuk memulai.", "image");
+    mainEl().innerHTML = html;
+
+    document.getElementById("btn-tambah-galeri").addEventListener("click", () => modalGaleri(null, proyekNama));
+    mainEl().querySelectorAll("[data-edit-gal]").forEach((b) => b.addEventListener("click", () => modalGaleri(b.dataset.editGal, proyekNama)));
+    mainEl().querySelectorAll("[data-toggle-gal]").forEach((b) =>
+      b.addEventListener("click", async () => {
+        const g = cache.galeri.find((x) => x.id === b.dataset.toggleGal); if (!g) return;
+        try {
+          await S.store.updateGaleri(g.id, { status: g.status === "aktif" ? "arsip" : "aktif" });
+          S.toast(g.status === "aktif" ? "Foto diarsipkan — disembunyikan dari publik." : "Foto ditayangkan kembali.", "sukses");
+          vGaleri();
+        } catch (e) { S.toast(e.message, "gagal"); }
+      }));
+    mainEl().querySelectorAll("[data-del-gal]").forEach((b) =>
+      b.addEventListener("click", async () => {
+        const g = cache.galeri.find((x) => x.id === b.dataset.delGal); if (!g) return;
+        if (!(await S.konfirmasi("Hapus foto \"" + g.judul + "\"? Foto hilang permanen dari halaman Galeri.", "Ya, hapus foto"))) return;
+        try { await S.store.deleteGaleri(g.id); S.toast("Foto telah dihapus.", "sukses"); vGaleri(); }
+        catch (e) { S.toast(e.message, "gagal"); }
+      }));
+  }
+
+  function modalGaleri(id, proyekNama) {
+    const g = id ? cache.galeri.find((x) => x.id === id) : null;
+    let fotoTerpilih = g ? g.foto : "";
+    const kosongSvg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='76'%3E%3Crect width='120' height='76' fill='%23e2e8f0'/%3E%3C/svg%3E";
+    const katOpts = Object.entries(S.GALERI_KATEGORI || {}).map(([k, m]) =>
+      '<option value="' + k + '"' + ((g ? g.kategori : "kegiatan") === k ? " selected" : "") + ">" + m.label + "</option>").join("");
+    const proOpts = '<option value="">— Tidak dikaitkan —</option>' + Object.keys(proyekNama || {})
+      .sort((a, b) => String(proyekNama[a]).localeCompare(String(proyekNama[b])))
+      .map((rid) => {
+        const nm = proyekNama[rid];
+        return '<option value="' + rid + '"' + (g && g.requestId === rid ? " selected" : "") + ">" + S.esc(nm.length > 46 ? nm.slice(0, 46) + "…" : nm) + "</option>";
+      }).join("");
+    S.modal({
+      judul: g ? "Edit Foto Galeri" : "Tambah Foto Galeri",
+      lebar: 620,
+      isi:
+        '<div class="field"><label>Foto <span class="req-star">*</span></label>' +
+        '<div class="gal-upload"><img id="gg-preview" src="' + (fotoTerpilih ? S.esc(fotoTerpilih) : kosongSvg) + '" alt="Pratinjau"/></div>' +
+        '<input type="file" id="gg-file" accept="image/*" style="margin-top:8px"/>' +
+        '<input type="text" id="gg-url" placeholder="…atau tempel tautan gambar (https://…)" value="' + (g && String(g.foto || "").indexOf("data:") !== 0 ? S.esc(g.foto) : "") + '" style="margin-top:8px"/>' +
+        '<p style="font-size:12px;color:var(--abu);margin-top:6px">Unggahan otomatis dikompres ke sisi terpanjang 1280 px agar hemat penyimpanan database.</p></div>' +
+        '<div class="field"><label>Judul Foto <span class="req-star">*</span></label><input type="text" id="gg-judul" maxlength="90" value="' + S.esc(g ? g.judul : "") + '" placeholder="Contoh: Distribusi Sembako Korban Banjir"/></div>' +
+        '<div class="field"><label>Keterangan</label><textarea id="gg-ket" rows="3" placeholder="Ceritakan singkat momen pada foto...">' + S.esc(g ? g.keterangan || "" : "") + "</textarea></div>" +
+        '<div class="form-row">' +
+        '<div class="field"><label>Kategori</label><select id="gg-kategori">' + katOpts + "</select></div>" +
+        '<div class="field"><label>Kaitkan ke Program</label><select id="gg-proyek">' + proOpts + "</select></div>" +
+        "</div>" +
+        '<div class="field"><label>Status</label><select id="gg-status"><option value="aktif"' + (!g || g.status === "aktif" ? " selected" : "") + ">Tayang (terlihat publik)</option><option value=\"arsip\"" + (g && g.status === "arsip" ? " selected" : "") + ">Arsip (sembunyikan)</option></select></div>",
+      footer: '<button class="btn btn-ghost" onclick="SB.modalClose()">Batal</button><button class="btn btn-primary" id="gg-simpan">' + (g ? "Simpan Perubahan" : "Tambahkan ke Galeri") + "</button>"
+    });
+
+    const setPreview = (src) => { document.getElementById("gg-preview").src = src; fotoTerpilih = src; };
+    document.getElementById("gg-file").addEventListener("change", async (e) => {
+      const file = e.target.files && e.target.files[0];
+      if (!file) return;
+      if (file.size > 12 * 1024 * 1024) { S.toast("Ukuran gambar terlalu besar (maks 12 MB).", "gagal"); e.target.value = ""; return; }
+      try {
+        const dataUrl = await SB.laporan.kompresGambar(file, 1280);
+        setPreview(dataUrl);
+        document.getElementById("gg-url").value = "";
+        S.toast("Foto siap. Isi judul lalu simpan.", "info");
+      } catch (err) { S.toast(err.message || "Gambar tidak dapat dibaca.", "gagal"); e.target.value = ""; }
+    });
+    document.getElementById("gg-url").addEventListener("input", (e) => {
+      const v = e.target.value.trim();
+      if (/^https?:\/\//i.test(v) || v.indexOf("data:") === 0) setPreview(v);
+    });
+    document.getElementById("gg-simpan").addEventListener("click", async () => {
+      const judul = document.getElementById("gg-judul").value.trim();
+      const url = document.getElementById("gg-url").value.trim();
+      const foto = url || fotoTerpilih;
+      if (!judul) { S.toast("Judul foto wajib diisi.", "gagal"); return; }
+      if (!foto) { S.toast("Unggah foto atau tempel tautan gambar dulu.", "gagal"); return; }
+      const data = {
+        judul,
+        keterangan: document.getElementById("gg-ket").value.trim(),
+        kategori: document.getElementById("gg-kategori").value,
+        requestId: document.getElementById("gg-proyek").value || null,
+        status: document.getElementById("gg-status").value,
+        foto
+      };
+      try {
+        if (g) await S.store.updateGaleri(g.id, data);
+        else await S.store.createGaleri(data);
+        S.modalClose();
+        S.toast(g ? "Foto galeri diperbarui." : "Foto ditambahkan ke galeri.", "sukses");
+        vGaleri();
+      } catch (e) { S.toast(e.message, "gagal"); }
+    });
+  }
+
   /* ================= PENGATURAN ================= */
   async function vPengaturan() {
     const cfg = window.SB_CONFIG || {};
@@ -1731,6 +1867,7 @@
       else if (id === "donasi") await vDonasi();
       else if (id === "ziswaf") await vZiswaf();
       else if (id === "konten") await vKonten();
+      else if (id === "galeri") await vGaleri();
       else if (id === "isi") await vIsiWebsite();
       else if (id === "laporan") await vLaporan();
       else if (id === "pengaturan") await vPengaturan();

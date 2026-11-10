@@ -1404,3 +1404,44 @@ select setval('ziswaf_sal_seq',
   greatest((select coalesce(max(substring(kode from '[0-9]+$')::bigint), 0)
             from public.ziswaf_distributions where kode like 'ZS-%'), 0) + 1,
   false);
+
+-- ============================================================
+-- BAGIAN 21 — MODUL GALERI FOTO
+-- Galeri foto program & kegiatan: publik melihat foto aktif,
+-- admin/pengelola mengelola (tambah/ubah/arsip/hapus) lewat
+-- Panel Admin -> Galeri Kegiatan. Ikut Realtime.
+-- ============================================================
+
+-- 21a. Tabel galeri foto
+create table if not exists public.gallery_photos (
+  id            uuid primary key default gen_random_uuid(),
+  title         text not null,
+  caption       text not null default '',
+  photo_url     text not null,
+  category      text not null default 'kegiatan',
+  request_id    uuid references public.assistance_requests(id) on delete set null,
+  is_active     boolean not null default true,
+  sort_order    integer not null default 0,
+  created_by    uuid references public.profiles(id) on delete set null,
+  created_by_name text not null default 'Tim Saling Bantu',
+  created_at    timestamptz not null default now()
+);
+
+create index if not exists idx_gallery_created on public.gallery_photos (created_at desc);
+
+-- 21b. Keamanan (RLS): publik boleh melihat semua foto aktif,
+--      admin/pengelola memegang kendali penuh
+alter table public.gallery_photos enable row level security;
+
+drop policy if exists p_gallery_read on public.gallery_photos;
+create policy p_gallery_read on public.gallery_photos for select to anon, authenticated
+  using (true);
+
+drop policy if exists p_gallery_admin on public.gallery_photos;
+create policy p_gallery_admin on public.gallery_photos for all to authenticated
+  using (public.is_pengelola()) with check (public.is_pengelola());
+
+-- 21c. Realtime: ikutkan galeri ke publication supabase_realtime
+do $$ begin
+  alter publication supabase_realtime add table public.gallery_photos;
+exception when duplicate_object then null; end $$;

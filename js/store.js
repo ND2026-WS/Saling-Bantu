@@ -17,6 +17,22 @@ window.SB = window.SB || {};
   /* ==========================================================
      BACKEND DEMO (localStorage)
      ========================================================== */
+  /* Foto contoh galeri: digambar sebagai SVG kecil (tanpa file gambar
+     eksternal) sehingga Mode Demo tetap hidup dan tetap ringan offline. */
+  function fotoSvg(ikon, teks, c1, c2) {
+    const svg =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="800" height="520" viewBox="0 0 800 520">' +
+      '<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1">' +
+      '<stop offset="0" stop-color="' + c1 + '"/><stop offset="1" stop-color="' + c2 + '"/></linearGradient></defs>' +
+      '<rect width="800" height="520" fill="url(#g)"/>' +
+      '<circle cx="660" cy="80" r="150" fill="rgba(255,255,255,.14)"/>' +
+      '<circle cx="110" cy="470" r="190" fill="rgba(255,255,255,.10)"/>' +
+      '<text x="400" y="255" font-size="118" text-anchor="middle">' + ikon + '</text>' +
+      '<text x="400" y="362" font-size="33" font-weight="700" fill="#ffffff" text-anchor="middle" font-family="sans-serif">' + teks + '</text>' +
+      '</svg>';
+    return "data:image/svg+xml;utf8," + encodeURIComponent(svg);
+  }
+
   function seed() {
     return {
       users: [
@@ -88,6 +104,16 @@ window.SB = window.SB || {};
         { id: "zs-2", kode: "ZS-2026-0002", jenis: "sedekah", mustahik: "beasiswa", penerima: "12 siswa yatim & dhuafa", jumlahPenerima: 12, bentuk: "Paket alat tulis + seragam", nominal: 350000, catatan: "Penyaluran awal semester.", tanggal: "2026-04-05T02:00:00.000Z" },
         { id: "zs-3", kode: "ZS-2026-0003", jenis: "infaq", mustahik: "operasional", penerima: "Masjid sekolah", jumlahPenerima: 1, bentuk: "Uang operasional (listrik, air, kebersihan)", nominal: 150000, catatan: "Tagihan bulan berjalan.", tanggal: "2026-04-12T02:00:00.000Z" }
       ],
+      galeri: [
+        { id: "g-1", judul: "Kajian Mingguan & Bukber Santri", keterangan: "Kegiatan rutin pekanan bersama santri dan orang tua di aula sekolah.", foto: fotoSvg("🕌", "Kajian & Bukber Santri", "#2E7D32", "#1565C0"), kategori: "kegiatan", requestId: null, status: "aktif", oleh: "Tim Saling Bantu", tanggal: "2026-10-05T02:00:00.000Z" },
+        { id: "g-2", judul: "Penyerahan Bantuan Pengobatan", keterangan: "Penyerahan dukungan biaya pengobatan untuk keluarga terbantu di Bandung.", foto: fotoSvg("🤲", "Bantuan Pengobatan", "#1565C0", "#2E7D32"), kategori: "program", requestId: "r-1", status: "aktif", oleh: "Tim Saling Bantu", tanggal: "2026-10-09T02:00:00.000Z" },
+        { id: "g-3", judul: "Distribusi Sembako Korban Banjir", keterangan: "40 keluarga terdampak banjir bandang menerima paket sembako & selimut.", foto: fotoSvg("🍲", "Sembako Korban Banjir", "#F57C00", "#2E7D32"), kategori: "program", requestId: "r-3", status: "aktif", oleh: "Tim Saling Bantu", tanggal: "2026-10-21T02:00:00.000Z" },
+        { id: "g-4", judul: "Perpustakaan Mini Desa", keterangan: "Rak buku hasil gerakan tukar buku komunitas, kini dipakai tiga desa.", foto: fotoSvg("📚", "Perpustakaan Mini Desa", "#2E7D32", "#F57C00"), kategori: "fasilitas", requestId: null, status: "aktif", oleh: "Tim Saling Bantu", tanggal: "2026-10-12T02:00:00.000Z" },
+        { id: "g-5", judul: "Kelas Belajar Gratis Akhir Pekan", keterangan: "Relawan mengajar membaca dan berhitung untuk anak-anak pesisir.", foto: fotoSvg("🎒", "Kelas Belajar Gratis", "#1565C0", "#F57C00"), kategori: "kegiatan", requestId: "r-2", status: "aktif", oleh: "Tim Saling Bantu", tanggal: "2026-10-17T02:00:00.000Z" },
+        { id: "g-6", judul: "Relawan Perbaikan Atap Rumah Lansia", keterangan: "23 warga dan 4 tukang menopang perbaikan atap rumah Pak Slamet.", foto: fotoSvg("🏠", "Perbaikan Atap Rumah", "#F57C00", "#1565C0"), kategori: "program", requestId: "r-6", status: "aktif", oleh: "Tim Saling Bantu", tanggal: "2026-09-24T02:00:00.000Z" },
+        { id: "g-7", judul: "Penyiraman & Penghijauan Halaman Sekolah", keterangan: "Santri kelas 6 menanam bibit tanaman obat di halaman sekolah.", foto: fotoSvg("💧", "Penghijauan Sekolah", "#2E7D32", "#0D47A1"), kategori: "kegiatan", requestId: null, status: "aktif", oleh: "Tim Saling Bantu", tanggal: "2026-10-28T02:00:00.000Z" },
+        { id: "g-8", judul: "Dokumentasi Persiapan Lomba (Arsip)", keterangan: "Foto tahap persiapan — belum ditayangkan ke publik (contoh status arsip).", foto: fotoSvg("🎓", "Dokumentasi Persiapan", "#0D47A1", "#2E7D32"), kategori: "kegiatan", requestId: null, status: "arsip", oleh: "Tim Saling Bantu", tanggal: "2026-09-10T02:00:00.000Z" }
+      ],
       counters: { req: 6, kuitansi: 4, ziswaf: 8, ziswafSalur: 3 }
     };
   }
@@ -101,6 +127,8 @@ window.SB = window.SB || {};
         if (!db || typeof db !== "object") return seed();
         if (!Array.isArray(db.ziswaf)) db.ziswaf = seed().ziswaf;
         if (!Array.isArray(db.ziswafSalur)) db.ziswafSalur = seed().ziswafSalur;
+        /* migrasi: data demo lama belum punya modul Galeri Foto */
+        if (!Array.isArray(db.galeri)) db.galeri = seed().galeri;
         db.counters = Object.assign({ req: 0, kuitansi: 0, ziswaf: (db.ziswaf || []).length, ziswafSalur: (db.ziswafSalur || []).length }, db.counters || {});
         if (db.counters.ziswaf == null) db.counters.ziswaf = db.ziswaf.length;
         if (db.counters.ziswafSalur == null) db.counters.ziswafSalur = db.ziswafSalur.length;
@@ -323,6 +351,44 @@ window.SB = window.SB || {};
         const s = db.stories.find((x) => x.id === id); if (!s) throw new Error("Cerita tidak ditemukan.");
         db.stories = db.stories.filter((x) => x.id !== id);
         db.audit.unshift({ id: uid(), aktor: u.nama, aksi: "delete", entitas: "stories", entitasId: id, detail: { judul: s.judul }, tanggal: now() });
+        saveDb(db);
+      },
+
+      /* ---------- GALERI FOTO ---------- */
+      async listGaleri(f) {
+        await sleep(60);
+        f = f || {};
+        let arr = db.galeri.slice();
+        if (f.publikOnly) arr = arr.filter((g) => g.status === "aktif");
+        if (f.kategori) arr = arr.filter((g) => g.kategori === f.kategori);
+        if (f.requestId) arr = arr.filter((g) => g.requestId === f.requestId);
+        return arr.sort((a, b) => (a.tanggal < b.tanggal ? 1 : -1));
+      },
+      async createGaleri(data) {
+        const u = me(); if (!u || !["admin", "pengelola"].includes(u.peran)) throw new Error("Hanya admin/pengelola yang dapat mengelola galeri.");
+        if (!data || !data.judul || !data.foto) throw new Error("Judul dan foto wajib diisi.");
+        const g = { id: uid(), judul: String(data.judul).trim(), keterangan: data.keterangan || "", foto: data.foto, kategori: data.kategori || "kegiatan", requestId: data.requestId || null, status: data.status === "arsip" ? "arsip" : "aktif", oleh: u.nama, tanggal: now() };
+        db.galeri.unshift(g);
+        db.audit.unshift({ id: uid(), aktor: u.nama, aksi: "create", entitas: "gallery_photos", entitasId: g.id, detail: { judul: g.judul }, tanggal: now() });
+        saveDb(db); return g;
+      },
+      async updateGaleri(id, patch) {
+        const u = me(); if (!u || !["admin", "pengelola"].includes(u.peran)) throw new Error("Hanya admin/pengelola yang dapat mengelola galeri.");
+        const g = db.galeri.find((x) => x.id === id); if (!g) throw new Error("Foto galeri tidak ditemukan.");
+        if (patch.judul != null) g.judul = String(patch.judul).trim();
+        if (patch.keterangan != null) g.keterangan = patch.keterangan;
+        if (patch.foto != null) g.foto = patch.foto;
+        if (patch.kategori != null) g.kategori = patch.kategori;
+        if (patch.requestId !== undefined) g.requestId = patch.requestId || null;
+        if (patch.status != null) g.status = patch.status === "arsip" ? "arsip" : "aktif";
+        db.audit.unshift({ id: uid(), aktor: u.nama, aksi: "update", entitas: "gallery_photos", entitasId: id, detail: { judul: g.judul }, tanggal: now() });
+        saveDb(db); return g;
+      },
+      async deleteGaleri(id) {
+        const u = me(); if (!u || !["admin", "pengelola"].includes(u.peran)) throw new Error("Hanya admin/pengelola yang dapat menghapus foto galeri.");
+        const g = db.galeri.find((x) => x.id === id); if (!g) throw new Error("Foto galeri tidak ditemukan.");
+        db.galeri = db.galeri.filter((x) => x.id !== id);
+        db.audit.unshift({ id: uid(), aktor: u.nama, aksi: "delete", entitas: "gallery_photos", entitasId: id, detail: { judul: g.judul }, tanggal: now() });
         saveDb(db);
       },
 
@@ -803,6 +869,8 @@ window.SB = window.SB || {};
     }
     function pesanDb(m) {
       const s = String(m || "");
+      // galeri foto — tabel/kebijakan belum ada (database lama belum menjalankan pembaruan galeri)
+      if (/gallery_photos/i.test(s) && /does not exist|row-level security|permission denied|could not find/i.test(s)) return "Modul Galeri belum tersedia di database ini — skema masih versi lama. Solusi: buka Dashboard Supabase → SQL Editor → New query, tempel seluruh isi file sql/update_galeri.sql, klik Run, lalu muat ulang halaman.";
       // PGRST204 — kolom tidak ditemukan: skema database belum diperbarui (database lama)
       const miss = s.match(/could not find the '([^']+)' column of '([^']+)'/i);
       if (miss) return "Skema database belum diperbarui: kolom '" + miss[1] + "' tidak ada di tabel " + miss[2] + ". Solusi: buka Dashboard Supabase → SQL Editor → New query, tempel seluruh isi file sql/update_admin_program.sql, lalu klik Run. Setelah selesai, muat ulang halaman ini dan coba lagi.";
@@ -1438,6 +1506,47 @@ window.SB = window.SB || {};
         const u = await meRow();
         if (!u || !["admin", "pengelola"].includes(u.peran)) throw new Error("Hanya admin/pengelola yang dapat menghapus cerita.");
         await hapusBaris("stories", id, "Cerita");
+      },
+
+      /* ---------- GALERI FOTO ---------- */
+      async listGaleri(f) {
+        f = f || {};
+        let q = sb.from("gallery_photos").select("*").order("created_at", { ascending: false });
+        if (f.publikOnly) q = q.eq("is_active", true);
+        const { data, error } = await q;
+        if (error) throw new Error(pesanDb(error.message));
+        return (data || []).map((g) => ({ id: g.id, judul: g.title, keterangan: g.caption || "", foto: g.photo_url, kategori: g.category || "kegiatan", requestId: g.request_id || null, status: g.is_active ? "aktif" : "arsip", oleh: g.created_by_name || "Tim Saling Bantu", tanggal: g.created_at }));
+      },
+      async createGaleri(data) {
+        const u = await meRow(); if (!u || !["admin", "pengelola"].includes(u.peran)) throw new Error("Hanya admin/pengelola yang dapat mengelola galeri.");
+        if (!data || !data.judul || !data.foto) throw new Error("Judul dan foto wajib diisi.");
+        const ins = { title: String(data.judul).trim(), caption: data.keterangan || "", photo_url: data.foto, category: data.kategori || "kegiatan", request_id: data.requestId || null, is_active: data.status !== "arsip", created_by: u.id, created_by_name: u.nama };
+        const { data: row, error } = await sb.from("gallery_photos").insert(ins).select("id").single();
+        if (error) throw new Error(pesanDb(error.message));
+        return row;
+      },
+      async updateGaleri(id, patch) {
+        const u = await meRow(); if (!u || !["admin", "pengelola"].includes(u.peran)) throw new Error("Hanya admin/pengelola yang dapat mengelola galeri.");
+        const p = {};
+        if (patch.judul != null) p.title = String(patch.judul).trim();
+        if (patch.keterangan != null) p.caption = patch.keterangan;
+        if (patch.foto != null) p.photo_url = patch.foto;
+        if (patch.kategori != null) p.category = patch.kategori;
+        if (patch.requestId !== undefined) p.request_id = patch.requestId || null;
+        if (patch.status != null) p.is_active = patch.status !== "arsip";
+        const { data, error } = await sb.from("gallery_photos").update(p).eq("id", id).select("id");
+        if (error) throw new Error(pesanDb(error.message));
+        if (!data || !data.length) throw new Error("Foto galeri tidak ditemukan, atau perubahan ditolak kebijakan keamanan database (RLS). Bila database lama: jalankan dulu seluruh isi sql/update_galeri.sql di SQL Editor Supabase, lalu coba lagi.");
+        return data;
+      },
+      async deleteGaleri(id) {
+        const u = await meRow();
+        if (!u || !["admin", "pengelola"].includes(u.peran)) throw new Error("Hanya admin/pengelola yang dapat menghapus foto galeri.");
+        /* Tidak memakai hapusBaris() agar pesan panduannya menunjuk
+           sql/update_galeri.sql (kebijakan RLS galeri ada di file itu). */
+        const { data, error } = await sb.from("gallery_photos").delete().eq("id", id).select("id");
+        if (error) throw new Error(pesanDb(error.message));
+        if (!data || !data.length) throw new Error("Foto galeri tidak ditemukan, atau penghapusan ditolak kebijakan keamanan database (RLS). Bila database lama: jalankan dulu seluruh isi sql/update_galeri.sql di SQL Editor Supabase, lalu coba lagi.");
       },
 
       async myNotifications() {

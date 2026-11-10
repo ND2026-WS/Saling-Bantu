@@ -81,6 +81,7 @@ window.SB = window.SB || {};
     trash: '<polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/>',
     send: '<line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>',
     heartHand: '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/><line x1="7" y1="12" x2="17" y2="12"/>',
+    image: '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>',
     flag: '<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>',
     settings: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>',
   };
@@ -193,6 +194,13 @@ window.SB = window.SB || {};
     transfer_bank: "Transfer Bank",
     tunai:         "Tunai / Kotak Amal",
     qris:          "QRIS",
+  };
+
+  /* Kategori foto galeri (dipakai galeri.html & panel admin) */
+  const GALERI_KATEGORI = {
+    kegiatan:  { label: "Kegiatan",  warna: "hijau" },
+    program:   { label: "Program",   warna: "biru" },
+    fasilitas: { label: "Fasilitas", warna: "oranye" },
   };
 
   const JENIS_NOTIF = {
@@ -311,6 +319,7 @@ window.SB = window.SB || {};
   SB.ZISWAF_JENIS = ZISWAF_JENIS; SB.ZISWAF_KELOMPOK = ZISWAF_KELOMPOK;
   SB.ZISWAF_MUSTAHIK = ZISWAF_MUSTAHIK; SB.ZISWAF_PROGRAM = ZISWAF_PROGRAM;
   SB.ZISWAF_STATUS = ZISWAF_STATUS; SB.ZISWAF_METODE = ZISWAF_METODE;
+  SB.GALERI_KATEGORI = GALERI_KATEGORI;
   SB.toast = toast; SB.modal = modal; SB.modalClose = modalClose; SB.konfirmasi = konfirmasi;
   SB.badgeStatus = badgeStatus; SB.badgeKategori = badgeKategori; SB.progress = progress;
   SB.avatar = avatar; SB.kosong = kosong; SB.timeline = timeline;

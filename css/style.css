@@ -490,3 +490,21 @@ canvas.sb-chart { width: 100%; height: 240px; display: block; }
   .live-dot::after { animation: none; }
   .feed-item.baru { animation: none; }
 }
+
+/* ================= GALERI FOTO ================= */
+.gal-card { background: #fff; border: 1px solid var(--garis); border-radius: var(--radius); box-shadow: var(--shadow); overflow: hidden; display: flex; flex-direction: column; transition: transform .15s ease, box-shadow .15s ease; cursor: pointer; }
+.gal-card:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(15, 23, 42, .12); }
+.gal-card.gal-arsip { opacity: .78; }
+.gal-img { position: relative; aspect-ratio: 8 / 5.2; background: #eef2f7; overflow: hidden; }
+.gal-img img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.gal-st { position: absolute; top: 9px; right: 9px; }
+.gal-body { padding: 13px 14px 14px; display: flex; flex-direction: column; gap: 7px; }
+.gal-badges { display: flex; gap: 6px; flex-wrap: wrap; }
+.gal-body h3 { font-size: 15.5px; line-height: 1.35; margin: 0; }
+.gal-ket { font-size: 13px; color: var(--abu); margin: 0; line-height: 1.55; }
+.gal-tgl { color: var(--abu); display: inline-flex; align-items: center; gap: 5px; }
+.gal-upload { border: 1.5px dashed var(--garis); border-radius: var(--radius); padding: 10px; background: #f8fafc; text-align: center; }
+.gal-upload img { max-width: 100%; max-height: 210px; border-radius: 10px; object-fit: contain; }
+.lb-wrap { text-align: center; background: #0f172a; border-radius: 12px; padding: 8px; }
+.lb-img { max-width: 100%; max-height: 58vh; border-radius: 8px; object-fit: contain; }
+.lb-info { margin-top: 12px; }

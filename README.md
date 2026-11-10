@@ -703,3 +703,74 @@ memuat semuanya. **Mode Demo langsung jalan tanpa setup.**
   WA; feed Dashboard Realtime juga menampilkannya seketika.
 - **Excel donasi**: kolom **No. WA** kini ikut terekspor (donatur akun yang
   tidak mengisi WA tampil kosong, tamu selalu terisi).
+
+## 13. Galeri Foto Program & Kegiatan (v1.8)
+
+Modul dokumentasi visual: admin/pengelola mengunggah foto kegiatan dan
+penyaluran program, publik melihatnya di halaman **Galeri** yang baru.
+
+### Halaman publik `galeri.html`
+
+- Grid foto rapi dengan **judul, keterangan, kategori** (Kegiatan /
+  Program / Fasilitas), kaitan program bantuan, dan tanggal.
+- **Filter**: per kategori dan per program bantuan (dropdown diambil
+  dari daftar pengajuan publik).
+- **Lightbox**: klik/Enter pada foto untuk menampilkan gambar besar
+  beserta keterangan, nomor urut, pengunggah, dan tombol
+  **Sebelumnya / Selanjutnya** untuk menelusuri galeri.
+- **Realtime**: foto baru dari panel admin tampil seketika tanpa muat
+  ulang (Supabase maupun Mode Demo).
+
+### Panel admin — menu "Galeri Kegiatan"
+
+- **Tambah Foto**: unggah dari perangkat (otomatis dikompres ke sisi
+  terpanjang 1280 px lewat canvas — hemat penyimpanan) **atau** tempel
+  tautan gambar `https://…`. Pratinjau langsung sebelum simpan.
+- Kolom: judul (wajib), keterangan, kategori, **kaitkan ke program**
+  bantuan (opsional), dan status **Tayang / Arsip**.
+- **Arsipkan** menyembunyikan foto dari publik tanpa menghapusnya;
+  **Tayangkan** mengembalikannya. Edit dan Hapus tersedia di setiap
+  kartu, dengan konfirmasi sebelum hapus.
+- Semua aksi tercatat di **jejak audit** (create/update/delete,
+  entitas `gallery_photos`).
+
+### Mode Supabase — wajib jalankan `sql/update_galeri.sql`
+
+Database lama perlu satu pembaruan (aman dijalankan berulang):
+
+```sql
+-- ringkasan isi file sql/update_galeri.sql
+create table if not exists public.gallery_photos (
+  id uuid primary key default gen_random_uuid(),
+  title text not null, caption text default '',
+  photo_url text not null,
+  category text default 'kegiatan',
+  request_id uuid references public.assistance_requests(id) on delete set null,
+  is_active boolean default true,
+  created_by uuid references public.profiles(id),
+  created_by_name text default 'Tim Saling Bantu',
+  created_at timestamptz default now()
+);
+-- + RLS: publik boleh baca, hanya is_pengelola() boleh kelola
+-- + ikut publication supabase_realtime + notify pgrst
+```
+
+Instalasi baru tidak perlu apa-apa — `sql/supabase_schema.sql` sudah
+memuat **BAGIAN 21** yang sama. **Mode Demo** langsung jalan dengan 8
+foto contoh (digambar sebagai SVG kecil, tanpa file gambar eksternal).
+
+### Masalah umum Galeri
+
+- **"Modul Galeri belum tersedia di database ini"** / daftar galeri
+  kosong di Mode Supabase padahal ada fotonya: database masih versi
+  lama — jalankan seluruh isi `sql/update_galeri.sql` di SQL Editor
+  Supabase, klik Run, lalu muat ulang halaman.
+- **Foto arsip tidak muncul di galeri publik?** Memang begitu —
+  status Arsip disembunyikan dari publik; tekan **Tayangkan** di panel
+  admin untuk menampilkannya kembali.
+- **Unggahan gagal / "Gambar tidak dapat dibaca"**: gunakan JPG/PNG;
+  bila memakai foto lama hasil rotasi EXIF, buka dulu di galeri HP
+  lalu simpan ulang. Batas 12 MB per unggahan.
+- **Foto besar membuat galeri lambat**: unggahan otomatis dikompres ke
+  1280 px, namun tautan eksternal tidak — gunakan CDN/penyimpanan
+  gambar yang cepat bila menempel tautan.
